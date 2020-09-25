@@ -8,8 +8,8 @@ namespace SmartPole.Model
 {
     public class SensorModel
     {
-		private string descricao;
 		public string Descricao
+		private string descricao;
 		{
 			get { return descricao; }
 			set { descricao = value; }
