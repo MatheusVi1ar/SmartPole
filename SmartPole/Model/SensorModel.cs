@@ -6,7 +6,7 @@ using System.Text;
 //Classe Sensor
 namespace SmartPole.Model
 {
-    public class SensorArray
+    public class SensorArray // Vetor sensor
     {
         public List<Sensor> Vazao { get; set; }
         public List<Sensor> Luminosidade { get; set; }
