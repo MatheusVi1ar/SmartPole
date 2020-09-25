@@ -19,10 +19,11 @@ namespace SmartPole.Model
 			get { return String.Format("Descricao: {0}", descricao); }
 			set { descricao = value; }
 		}
-
+		
 		private string status;
 		public string Status
-		{
+		{	
+			//get { return String.Format("Status: {0}",status); }
 			get { return String.Format("Status: {0}",status); }
 			set { status = value; }
 		}
