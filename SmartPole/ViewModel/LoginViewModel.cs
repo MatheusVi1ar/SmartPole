@@ -1,7 +1,4 @@
-﻿using Android.Telephony;
-using Android.Webkit;
-using Java.Net;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SmartPole.Model;
 using System;
 using System.Collections.Generic;
@@ -70,6 +67,9 @@ namespace SmartPole.ViewModel
         {
             using (HttpClient cliente = new HttpClient())
             {
+                //Precisa inserir o usuario no banco
+                return true;
+
                 //cliente.BaseAddress = new Uri();
 
                 cliente.DefaultRequestHeaders.Add("Accept", "application/json");

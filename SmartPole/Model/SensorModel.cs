@@ -4,27 +4,26 @@ using System.Text;
 
 namespace SmartPole.Model
 {
-    public class SensorModel
+    public class SensorArray
     {
-		private string descricao;
-		public string Descricao
-		{
-			get { return descricao; }
-			set { descricao = value; }
-		}
-		private DateTime data;
-		public DateTime Data
-		{
-			get { return data; }
-			set { data = value; }
-		}
+        public List<Sensor> Vazao { get; set; }
+        public List<Sensor> Luminosidade { get; set; }
+        public List<Sensor> Energia { get; set; }
+        public List<Sensor> Temperatura { get; set; }
 
-		public string DescricaoFormatada
-		{
-			get
-			{
-				return string.Format("{0} - Data {1}", descricao, data.ToString("dd/mm/yyyy"));
-			}
-		}
-	}
+        public string Collection { get; set; }
+        public SensorArray()
+        {
+            Vazao = new List<Sensor>();
+            Luminosidade = new List<Sensor>();
+            Energia = new List<Sensor>();
+            Temperatura = new List<Sensor>();
+        }
+    }
+    public class Sensor
+    {
+        public string Nome { get; set; }
+        public string Valor { get; set; }
+        public DateTime Data { get; set; }
+    }
 }

@@ -1,5 +1,4 @@
-﻿using Android.Security;
-using SmartPole.Model;
+﻿using SmartPole.Model;
 using SmartPole.View;
 using System;
 using Xamarin.Forms;

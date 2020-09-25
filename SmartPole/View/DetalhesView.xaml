@@ -1,31 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:SmartPole.ViewModel"
              mc:Ignorable="d"
              x:Class="SmartPole.View.DetalhesView">
-    <ContentPage.BindingContext>
-        <vm:DetalheViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding Postes}" HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell Height="200">
-                        <ViewCell.View>
-                            <StackLayout BackgroundColor="LightGray" Margin="45,0,45,0">
-                                <Frame HeightRequest="150" WidthRequest="75" BackgroundColor="White">
-                                    <Image Source="grafico.png" Aspect="Fill" HorizontalOptions="Center"></Image>
-                                </Frame>
-                                <Label Text="{Binding Descricao}" HorizontalTextAlignment="Center"></Label>
-                                <Label Text="{Binding Status}" HorizontalTextAlignment="Center"></Label>
-                            </StackLayout>
-                        </ViewCell.View>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout>
+            <ActivityIndicator IsRunning="{Binding Aguardar}" 
+                               IsVisible="{Binding Aguardar}"/>
+            <microcharts:ChartView Chart="{Binding Chart}" WidthRequest="500" HeightRequest="500" BackgroundColor="White" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

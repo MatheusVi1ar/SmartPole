@@ -7,8 +7,7 @@ namespace SmartPole.ViewModel
 {
     public class GeralViewModel
     {
-        public List<string> Regioes { get; set; }
-        public List<SensorModel> Sensores { get; set; }
+        public List<string> Regioes { get; set; }        
         public GeralViewModel()
         {
             Regioes = new List<string>()
@@ -19,13 +18,6 @@ namespace SmartPole.ViewModel
                 "Diadema",
                 "Mauá",
                 "Riberão Pires"
-            };
-
-            Sensores = new List<SensorModel>()
-            {
-                new SensorModel(){ Descricao="Sensor1", Data=DateTime.Now},
-                new SensorModel(){ Descricao="Sensor2", Data=DateTime.Now.AddDays(-1)},
-                new SensorModel(){ Descricao="Sensor3", Data=DateTime.Now.AddDays(-2)},
             };
         }
     }

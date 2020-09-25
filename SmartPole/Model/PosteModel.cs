@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace SmartPole.Model
-{
+{    
     public class PosteModel
     {
 		private string id;

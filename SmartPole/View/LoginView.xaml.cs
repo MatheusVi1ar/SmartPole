@@ -18,7 +18,7 @@ namespace SmartPole.View
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
             MessagingCenter.Subscribe<String>(this, "Sobre", (msg) =>
