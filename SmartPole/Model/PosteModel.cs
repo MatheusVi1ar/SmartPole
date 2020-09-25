@@ -13,9 +13,8 @@ namespace SmartPole.Model
 			set { id = value; }
 		}
 
-		public string Descricao
 		private string descricao;
-		
+		public string Descricao
 		{
 			get { return String.Format("Descricao: {0}", descricao); }
 			set { descricao = value; }
