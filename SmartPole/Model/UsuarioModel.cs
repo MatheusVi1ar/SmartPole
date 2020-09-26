@@ -6,11 +6,17 @@ namespace SmartPole.Model
 {
     public class UsuarioModel
     {
-		public string Nome
         private string nome;
+        public string Nome
         {
-            get { return nome; }
-            set { nome = value; }
+            get
+            {
+                return nome;
+            }
+            set
+            {
+                nome = value;
+            }
         }
         private string email;
         public string Email

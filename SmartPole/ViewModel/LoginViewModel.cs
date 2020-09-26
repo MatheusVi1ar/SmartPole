@@ -67,9 +67,6 @@ namespace SmartPole.ViewModel
         {
             using (HttpClient cliente = new HttpClient())
             {
-                //Precisa inserir o usuario no banco
-                return true;
-
                 //cliente.BaseAddress = new Uri();
 
                 cliente.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -84,7 +81,15 @@ namespace SmartPole.ViewModel
                         string conteudo = await resposta.Content.ReadAsStringAsync();
                         UsuarioJson usuariojson = JsonConvert.DeserializeObject<UsuarioJson>(conteudo);
 
-                        return usuariojson.senha.value == Senha;
+                        if(usuariojson.senha.value == Senha)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessagingCenter.Send<String>("Usuario/Senha incorretos.", "FalhaLogin");
+                        }
+
                     }
                     else
                     {

@@ -62,7 +62,11 @@ namespace SmartPole.ViewModel
                     };
                     entryList.Add(entry);
                 }
-                Chart = new LineChart() { Entries = entryList };
+                if (entryList.Count > 0)
+                {
+                    Chart = new LineChart() { Entries = entryList };
+                    break;
+                }
             }
         }
 
