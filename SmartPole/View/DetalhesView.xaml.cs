@@ -23,8 +23,9 @@ namespace SmartPole.View
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            viewModel.DataDe = DateTime.Today;
+            viewModel.DataAte = DateTime.Today;
             await viewModel.ConsultarHistorico();
-            viewModel.PreencherGraficos();
         }
     }
 }

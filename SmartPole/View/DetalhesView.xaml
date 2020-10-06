@@ -1,27 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="SmartPole.View.DetalhesView">
     <ContentPage.Content>
-        <StackLayout>
-            <ActivityIndicator IsRunning="{Binding Aguardar}" 
-                               IsVisible="{Binding Aguardar}"/>
-            <StackLayout Orientation="Horizontal">
-                <StackLayout Orientation="Vertical">
-                    <Label Text="De"></Label>
-                    <DatePicker></DatePicker>
+        <AbsoluteLayout>
+            <StackLayout 
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+                <Picker Title="Selecione um dispositivo" ItemsSource="{Binding Entidades}" Margin="25"></Picker>
+                <StackLayout Orientation="Horizontal" Margin="25,0,0,0">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="De" Margin="5,0,0,0"></Label>
+                        <DatePicker Date="{Binding DataDe}"></DatePicker>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="Até" Margin="5,0,0,0"></Label>
+                        <DatePicker Date="{Binding DataAte}"></DatePicker>
+                    </StackLayout>
+                    <Button Text="Buscar" 
+                    BackgroundColor="PaleTurquoise"  
+                    Margin="20,20,40,0"                    
+                    BorderRadius="20"
+                    Command="{Binding btnConsultar}"></Button>
                 </StackLayout>
-                <StackLayout Orientation="Vertical">
-                    <Label Text="Até"></Label>
-                    <DatePicker></DatePicker>
-                </StackLayout>
-                <Button Text="Buscar"></Button>
             </StackLayout>
-            <microcharts:ChartView Chart="{Binding Chart}" WidthRequest="500" HeightRequest="500" BackgroundColor="White" />
-        </StackLayout>
+            <StackLayout
+                IsVisible="{Binding Aguardar}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Gray" Opacity="0.5">
+                <ActivityIndicator IsRunning="{Binding Aguardar}" 
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   Color="Black"/>
+            </StackLayout>
+        </AbsoluteLayout>
+
     </ContentPage.Content>
 </ContentPage>

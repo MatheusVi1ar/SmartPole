@@ -1,6 +1,4 @@
-﻿using Microcharts;
-using Newtonsoft.Json;
-using SkiaSharp;
+﻿using Newtonsoft.Json;
 using SmartPole.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SmartPole.ViewModel
@@ -18,7 +17,7 @@ namespace SmartPole.ViewModel
         const string URL_BASE = "https://smartpoleapi.azurewebsites.net";
         const string GET_HISTORICO = "/smartmeter";
 
-        public static readonly SKColor TextColor = SKColors.Black;
+     /*   public static readonly SKColor TextColor = SKColors.Black;
         private Chart chart { get; set; }
         public Chart Chart
         {
@@ -31,8 +30,23 @@ namespace SmartPole.ViewModel
                 chart = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
+
         public List<SensorArray> Entidades { get; set; }
+        private SensorArray selecionado { get; set; }
+        public SensorArray Selecionado
+        {
+            get
+            {
+                return selecionado;
+            }
+            set
+            {
+                selecionado = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private bool aguardar { get; set; }
         public bool Aguardar
         {
@@ -46,29 +60,75 @@ namespace SmartPole.ViewModel
                 OnPropertyChanged();
             }
         }
-        public void PreencherGraficos()
+
+        public bool Completo
         {
-            foreach (SensorArray entidade in Entidades)
+            get
             {
-                List<ChartEntry> entryList = new List<ChartEntry>();
-                foreach (Sensor sensor in entidade.Energia)
-                {
-                    var entry = new ChartEntry(33.4f)
-                    {
-                        Label = sensor.Nome,
-                        ValueLabel = sensor.Valor,
-                        Color = SKColor.Parse("#E52510"),
-                        TextColor = TextColor
-                    };
-                    entryList.Add(entry);
-                }
-                if (entryList.Count > 0)
-                {
-                    Chart = new LineChart() { Entries = entryList };
-                    break;
-                }
+                return !aguardar;
             }
         }
+            
+
+        private DateTime dataDe { get; set; }
+        public DateTime DataDe
+        {
+            get
+            {
+                return dataDe;
+            }
+            set
+            {
+                dataDe = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime dataAte { get; set; }
+        public DateTime DataAte
+        {
+            get
+            {
+                return dataAte;
+            }
+            set
+            {
+                dataAte = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand btnConsultar { get; set; }
+
+        public DetalheViewModel()
+        {
+            btnConsultar = new Command(async () =>
+            {
+                await ConsultarHistorico();
+            });
+        }
+
+        /* public void PreencherGraficos()
+         {
+             foreach (SensorArray entidade in Entidades)
+             {
+                 List<ChartEntry> entryList = new List<ChartEntry>();
+                 foreach (Sensor sensor in entidade.Energia)
+                 {
+                     if (sensor.Data.Date >= dataDe.Date && sensor.Data.Date <= dataAte.Date)
+                     {
+                         ChartEntry entry = new ChartEntry(float.Parse(sensor.Valor))
+                         {
+                             Label = sensor.Nome,
+                             Color = SKColor.Parse("#E52510"),
+                             TextColor = TextColor
+                         };
+                         entryList.Add(entry);
+                     }
+                 }
+                 Chart = new LineChart() { Entries = entryList };
+             }
+         }*/
 
         public async Task ConsultarHistorico()
         {

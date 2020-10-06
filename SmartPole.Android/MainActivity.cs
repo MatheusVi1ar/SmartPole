@@ -14,6 +14,9 @@ namespace SmartPole.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("@31382e322e30jmKvxNcxXkmfmS0JAWQiPmnipWYn+28UWFwSaWzYPV8=");
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

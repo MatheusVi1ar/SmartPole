@@ -18,7 +18,7 @@ namespace SmartPole.View
             InitializeComponent();
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             MessagingCenter.Subscribe<String>(this, "Sobre", (msg) =>
@@ -27,7 +27,7 @@ namespace SmartPole.View
             });
             MessagingCenter.Subscribe<String>(this, "FalhaLogin", (msg) =>
             {
-                DisplayAlert("Erro ao efetuar login",msg,"Ok");
+                DisplayAlert("Erro ao efetuar login", msg, "Ok");
             });
         }
 
