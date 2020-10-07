@@ -20,12 +20,30 @@ namespace SmartPole.View
             viewModel = new DetalheViewModel();
             this.BindingContext = viewModel;
         }
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.DataDe = DateTime.Today;
-            viewModel.DataAte = DateTime.Today;
-            await viewModel.ConsultarHistorico();
+
+            MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
+            {
+                DisplayAlert("Erro de conexão", msg, "Ok");
+            });
+            MessagingCenter.Subscribe<String>(this, "ConsultarDispositivo", async (msg) =>
+            {
+                await ConsultarDispositivo();
+            });
+        }
+
+        private Task ConsultarDispositivo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Unsubscribe<String>(this, "FalhaConsulta");
+            MessagingCenter.Unsubscribe<String>(this, "ConsultarDispositivo");
         }
     }
 }

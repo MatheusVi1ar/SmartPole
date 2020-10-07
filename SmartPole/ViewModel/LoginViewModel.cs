@@ -13,8 +13,7 @@ namespace SmartPole.ViewModel
 {
     public class LoginViewModel : BaseViewModel
     {
-        private const string URL_BASE = "http://143.107.145.32";
-        private const string GET_ENTITIES = ":1026/v2/entities/";
+        
         public UsuarioModel Usuario { get; set; }
         public string Login
         {
@@ -75,7 +74,7 @@ namespace SmartPole.ViewModel
 
                 try
                 {
-                    HttpResponseMessage resposta = await cliente.GetAsync(URL_BASE + GET_ENTITIES + Usuario.Login);
+                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + Usuario.Login);
                     if (resposta.IsSuccessStatusCode)
                     {
                         string conteudo = await resposta.Content.ReadAsStringAsync();

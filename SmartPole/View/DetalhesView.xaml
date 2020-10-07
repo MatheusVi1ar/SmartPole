@@ -11,22 +11,7 @@
             <StackLayout 
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
-                <Picker Title="Selecione um dispositivo" ItemsSource="{Binding Entidades}" Margin="25"></Picker>
-                <StackLayout Orientation="Horizontal" Margin="25,0,0,0">
-                    <StackLayout Orientation="Vertical">
-                        <Label Text="De" Margin="5,0,0,0"></Label>
-                        <DatePicker Date="{Binding DataDe}"></DatePicker>
-                    </StackLayout>
-                    <StackLayout Orientation="Vertical">
-                        <Label Text="Até" Margin="5,0,0,0"></Label>
-                        <DatePicker Date="{Binding DataAte}"></DatePicker>
-                    </StackLayout>
-                    <Button Text="Buscar" 
-                    BackgroundColor="PaleTurquoise"  
-                    Margin="20,20,40,0"                    
-                    BorderRadius="20"
-                    Command="{Binding btnConsultar}"></Button>
-                </StackLayout>
+                <Picker x:Name="ddDispositivo" Title="Selecione um dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" Margin="25"></Picker>                
             </StackLayout>
             <StackLayout
                 IsVisible="{Binding Aguardar}"

@@ -14,39 +14,37 @@ namespace SmartPole.ViewModel
 {
     public class DetalheViewModel : BaseViewModel
     {
-        const string URL_BASE = "https://smartpoleapi.azurewebsites.net";
-        const string GET_HISTORICO = "/smartmeter";
 
-     /*   public static readonly SKColor TextColor = SKColors.Black;
-        private Chart chart { get; set; }
-        public Chart Chart
+
+        /*   public static readonly SKColor TextColor = SKColors.Black;
+           private Chart chart { get; set; }
+           public Chart Chart
+           {
+               get
+               {
+                   return chart;
+               }
+               set
+               {
+                   chart = value;
+                   OnPropertyChanged();
+               }
+           }*/
+
+        public ObservableCollection<string> Dispositivos { get; set; }
+        private string dispositivoSelecionado { get; set; }
+        public string DispositivoSelecionado
         {
             get
             {
-                return chart;
+                return dispositivoSelecionado;
             }
             set
             {
-                chart = value;
-                OnPropertyChanged();
-            }
-        }*/
-
-        public List<SensorArray> Entidades { get; set; }
-        private SensorArray selecionado { get; set; }
-        public SensorArray Selecionado
-        {
-            get
-            {
-                return selecionado;
-            }
-            set
-            {
-                selecionado = value;
-                OnPropertyChanged();
+                dispositivoSelecionado = value;
+                MessagingCenter.Send<String>("ConsultarDados",dispositivoSelecionado);
             }
         }
-        
         private bool aguardar { get; set; }
         public bool Aguardar
         {
@@ -68,7 +66,7 @@ namespace SmartPole.ViewModel
                 return !aguardar;
             }
         }
-            
+
 
         private DateTime dataDe { get; set; }
         public DateTime DataDe
@@ -102,10 +100,12 @@ namespace SmartPole.ViewModel
 
         public DetalheViewModel()
         {
-            btnConsultar = new Command(async () =>
-            {
-                await ConsultarHistorico();
-            });
+            this.Dispositivos = new ObservableCollection<string>();     
+
+            DataDe = DateTime.Today;
+            DataAte = DateTime.Today;
+
+            MessagingCenter.Send<String>(String.Empty, "ConsultarDispositivo");
         }
 
         /* public void PreencherGraficos()
@@ -130,6 +130,37 @@ namespace SmartPole.ViewModel
              }
          }*/
 
+        public async Task ConsultarDispositivo()
+        {
+            using (HttpClient cliente = new HttpClient())
+            {
+                try
+                {
+                    Aguardar = true;
+
+                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_DISPOSITIVO);
+                    if (resposta.IsSuccessStatusCode)
+                    {
+                        string conteudo = await resposta.Content.ReadAsStringAsync();
+                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
+                        lista.ForEach((item) =>
+                        {
+                            Dispositivos.Add(item);
+                        });
+                    }
+                    else
+                    {
+                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
+                    }
+                }
+                catch (HttpRequestException)
+                {
+                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
+                }
+                Aguardar = false;
+            }
+        }
+
         public async Task ConsultarHistorico()
         {
             using (HttpClient cliente = new HttpClient())
@@ -137,22 +168,58 @@ namespace SmartPole.ViewModel
                 try
                 {
                     Aguardar = true;
-                    HttpResponseMessage resposta = await cliente.GetAsync(URL_BASE + GET_HISTORICO);
+
+                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO);
                     if (resposta.IsSuccessStatusCode)
                     {
+                        Dispositivos.Clear();
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<SensorArray> lista = JsonConvert.DeserializeObject<SensorArray[]>(conteudo).ToList();
-                        Entidades = lista;
+                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
+                        lista.ForEach((item) =>
+                        {
+                            Dispositivos.Add(item);
+                        });
                     }
                     else
                     {
-                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaLogin");
+                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
                     }
-
                 }
                 catch (HttpRequestException)
                 {
-                    MessagingCenter.Send<String>("Não foi possivel efetuar o login, verifique a sua conexão e tente novamente.", "FalhaLogin");
+                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
+                }
+                Aguardar = false;
+            }
+        }
+
+        public async Task ConsultarDados(string selecionado)
+        {
+            using (HttpClient cliente = new HttpClient())
+            {
+                try
+                {
+                    Aguardar = true;
+
+                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + selecionado);
+                    if (resposta.IsSuccessStatusCode)
+                    {
+                        Dispositivos.Clear();
+                        string conteudo = await resposta.Content.ReadAsStringAsync();
+                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
+                        lista.ForEach((item) =>
+                        {
+                            Dispositivos.Add(item);
+                        });
+                    }
+                    else
+                    {
+                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
+                    }
+                }
+                catch (HttpRequestException)
+                {
+                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
                 }
                 Aguardar = false;
             }
