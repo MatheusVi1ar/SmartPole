@@ -20,23 +20,16 @@ namespace SmartPole.View
             viewModel = new DetalheViewModel();
             this.BindingContext = viewModel;
         }
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            await viewModel.ConsultarDispositivo();
 
             MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
             {
                 DisplayAlert("Erro de conexão", msg, "Ok");
             });
-            MessagingCenter.Subscribe<String>(this, "ConsultarDispositivo", async (msg) =>
-            {
-                await ConsultarDispositivo();
-            });
-        }
-
-        private Task ConsultarDispositivo()
-        {
-            throw new NotImplementedException();
         }
 
         protected override void OnDisappearing()

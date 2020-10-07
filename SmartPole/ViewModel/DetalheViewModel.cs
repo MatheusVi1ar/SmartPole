@@ -42,7 +42,8 @@ namespace SmartPole.ViewModel
             set
             {
                 dispositivoSelecionado = value;
-                MessagingCenter.Send<String>("ConsultarDados",dispositivoSelecionado);
+
+                ConsultarDados(dispositivoSelecionado);
             }
         }
         private bool aguardar { get; set; }
@@ -197,6 +198,10 @@ namespace SmartPole.ViewModel
         {
             using (HttpClient cliente = new HttpClient())
             {
+                cliente.DefaultRequestHeaders.Add("Accept", "application/json");
+                cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
+                cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
+
                 try
                 {
                     Aguardar = true;
