@@ -43,7 +43,7 @@ namespace SmartPole.ViewModel
             {
                 dispositivoSelecionado = value;
 
-                ConsultarDados(dispositivoSelecionado);
+                _ = ConsultarDados(dispositivoSelecionado);
             }
         }
         private bool aguardar { get; set; }
@@ -131,6 +131,7 @@ namespace SmartPole.ViewModel
              }
          }*/
 
+        //HTTP metodos
         public async Task ConsultarDispositivo()
         {
             using (HttpClient cliente = new HttpClient())
@@ -142,8 +143,9 @@ namespace SmartPole.ViewModel
                     HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_DISPOSITIVO);
                     if (resposta.IsSuccessStatusCode)
                     {
+                        Dispositivos.Clear();
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
+                        List<string> lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();
                         lista.ForEach((item) =>
                         {
                             Dispositivos.Add(item);
@@ -175,7 +177,7 @@ namespace SmartPole.ViewModel
                     {
                         Dispositivos.Clear();
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
+                        List<string> lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();
                         lista.ForEach((item) =>
                         {
                             Dispositivos.Add(item);
@@ -196,12 +198,14 @@ namespace SmartPole.ViewModel
 
         public async Task ConsultarDados(string selecionado)
         {
+            if (string.IsNullOrEmpty(selecionado))
+                return;
             using (HttpClient cliente = new HttpClient())
             {
                 cliente.DefaultRequestHeaders.Add("Accept", "application/json");
                 cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
                 cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
-
+                DispositivoJson[] aux;
                 try
                 {
                     Aguardar = true;
@@ -209,13 +213,8 @@ namespace SmartPole.ViewModel
                     HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + selecionado);
                     if (resposta.IsSuccessStatusCode)
                     {
-                        Dispositivos.Clear();
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<string> lista = (JsonConvert.DeserializeObject<string[]>(conteudo).ToList());
-                        lista.ForEach((item) =>
-                        {
-                            Dispositivos.Add(item);
-                        });
+                        aux = JsonConvert.DeserializeObject<DispositivoJson[]>(conteudo);
                     }
                     else
                     {

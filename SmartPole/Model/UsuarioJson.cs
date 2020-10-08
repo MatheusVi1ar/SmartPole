@@ -4,49 +4,33 @@ using System.Text;
 
 namespace SmartPole.Model
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
-    public class Metadata
-    {
-    }
 
-    public class Email
+public class Email : JSON
     {
         public string type;
         public string value;
         public Metadata metadata;
     }
 
-    public class Metadata2
-    {
-    }
-
-    public class Login
+    public class Login : JSON
     {
         public string type;
         public string value;
-        public Metadata2 metadata;
+        public Metadata metadata;
     }
 
-    public class Metadata3
-    {
-    }
-
-    public class Nome
+    public class Nome : JSON
     {
         public string type;
         public string value;
-        public Metadata3 metadata;
+        public Metadata metadata;
     }
 
-    public class Metadata4
-    {
-    }
-
-    public class Senha
+    public class Senha : JSON
     {
         public string type;
         public string value;
-        public Metadata4 metadata;
+        public Metadata metadata;
     }
 
     public class UsuarioJson
