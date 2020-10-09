@@ -30,13 +30,18 @@ namespace SmartPole.View
             {
                 DisplayAlert("Erro de conexão", msg, "Ok");
             });
+
+            MessagingCenter.Subscribe<String>(this, "ConsultarHistorico",async (msg) =>
+            {
+               await viewModel.ConsultarHistorico();
+            });
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             MessagingCenter.Unsubscribe<String>(this, "FalhaConsulta");
-            MessagingCenter.Unsubscribe<String>(this, "ConsultarDispositivo");
+            MessagingCenter.Unsubscribe<String>(this, "ConsultarHistorico");
         }
     }
 }

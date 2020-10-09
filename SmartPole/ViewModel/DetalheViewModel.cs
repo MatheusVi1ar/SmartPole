@@ -42,8 +42,7 @@ namespace SmartPole.ViewModel
             set
             {
                 dispositivoSelecionado = value;
-
-                _ = ConsultarDados(dispositivoSelecionado);
+                ((Command)CmdBuscar).ChangeCanExecute();                
             }
         }
         private bool aguardar { get; set; }
@@ -80,6 +79,7 @@ namespace SmartPole.ViewModel
             {
                 dataDe = value;
                 OnPropertyChanged();
+                ((Command)CmdBuscar).ChangeCanExecute();
             }
         }
 
@@ -94,15 +94,25 @@ namespace SmartPole.ViewModel
             {
                 dataAte = value;
                 OnPropertyChanged();
+                ((Command)CmdBuscar).ChangeCanExecute();
             }
         }
 
-        public ICommand btnConsultar { get; set; }
+        public ICommand CmdBuscar { get; set; }
 
         public DetalheViewModel()
         {
-            this.Dispositivos = new ObservableCollection<string>();     
+            CmdBuscar = new Command(() =>
+            {
+                MessagingCenter.Send<String>(String.Empty, "ConsultarHistorico");
+            }, () =>
+            {
+                return DataDe != null
+                && DataAte != null
+                && !string.IsNullOrEmpty(dispositivoSelecionado);
+            });
 
+            this.Dispositivos = new ObservableCollection<string>();
             DataDe = DateTime.Today;
             DataAte = DateTime.Today;
 
@@ -171,8 +181,9 @@ namespace SmartPole.ViewModel
                 try
                 {
                     Aguardar = true;
-
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO);
+                    //string dispositivo, DateTime dataDe, DateTime dataAte 
+                    string parameter = String.Format("?dispositivo={0}&dataDe={1}=&dataAte{2}",DispositivoSelecionado,DataDe,DataAte);
+                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO + parameter);
                     if (resposta.IsSuccessStatusCode)
                     {
                         Dispositivos.Clear();
@@ -205,7 +216,6 @@ namespace SmartPole.ViewModel
                 cliente.DefaultRequestHeaders.Add("Accept", "application/json");
                 cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
                 cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
-                DispositivoJson[] aux;
                 try
                 {
                     Aguardar = true;
@@ -214,7 +224,8 @@ namespace SmartPole.ViewModel
                     if (resposta.IsSuccessStatusCode)
                     {
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        aux = JsonConvert.DeserializeObject<DispositivoJson[]>(conteudo);
+                        DispositivoJson aux = JsonConvert.DeserializeObject<DispositivoJson>(conteudo);
+                        string x = "1";
                     }
                     else
                     {
