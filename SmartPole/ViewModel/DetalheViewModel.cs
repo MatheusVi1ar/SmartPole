@@ -181,18 +181,17 @@ namespace SmartPole.ViewModel
                 try
                 {
                     Aguardar = true;
-                    //string dispositivo, DateTime dataDe, DateTime dataAte 
-                    string parameter = String.Format("?dispositivo={0}&dataDe={1}=&dataAte{2}",DispositivoSelecionado,DataDe,DataAte);
+                    cliente.DefaultRequestHeaders.Add("Accept", "application/json");
+                    string parameter = String.Format("?dispositivo={0}&dataDe={1}&dataAte={2}",DispositivoSelecionado,DataDe.Date.ToString("dd/MM/yyyy"), DataAte.Date.ToString("dd/MM/yyyy"));
+                    
                     HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO + parameter);
+                    //HttpResponseMessage resposta = await cliente.GetAsync("https://localhost:44391/SmartMeter" + Constantes.GET_HISTORICO + parameter);
                     if (resposta.IsSuccessStatusCode)
-                    {
-                        Dispositivos.Clear();
+                    {                        
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<string> lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();
-                        lista.ForEach((item) =>
-                        {
-                            Dispositivos.Add(item);
-                        });
+                        Entidade collection = JsonConvert.DeserializeObject<Entidade>(conteudo);
+                        if (collection == null)
+                            collection = new Entidade();
                     }
                     else
                     {
@@ -224,7 +223,7 @@ namespace SmartPole.ViewModel
                     if (resposta.IsSuccessStatusCode)
                     {
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        DispositivoJson aux = JsonConvert.DeserializeObject<DispositivoJson>(conteudo);
+                      //  DispositivoJson aux = JsonConvert.DeserializeObject<DispositivoJson>(conteudo);
                         string x = "1";
                     }
                     else
