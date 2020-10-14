@@ -29,6 +29,27 @@
                     BorderRadius="20"
                     Command="{Binding CmdBuscar}"></Button>
                 </StackLayout>
+                <chart:SfChart>
+
+                    <chart:LineSeries Label="Customers" ItemsSource="{Binding Collection.Vazao}" XBindingPath="Data" YBindingPath="Valor" >
+
+                        <chart:LineSeries.YAxis>
+
+                            <chart:NumericalAxis OpposedPosition="true" >
+
+                                <chart:NumericalAxis.Title>
+
+                                    <chart:ChartAxisTitle Text = "Vazão" />
+
+                                </chart:NumericalAxis.Title>
+
+                            </chart:NumericalAxis>
+
+                        </chart:LineSeries.YAxis>
+
+                    </chart:LineSeries>
+
+                </chart:SfChart>
             </StackLayout>
             <StackLayout
                 IsVisible="{Binding Aguardar}"

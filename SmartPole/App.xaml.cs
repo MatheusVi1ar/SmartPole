@@ -11,7 +11,7 @@ namespace SmartPole
         public App()
         {
             //Register Syncfusion license
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("@31382e322e30jmKvxNcxXkmfmS0JAWQiPmnipWYn+28UWFwSaWzYPV8=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzM0NDEwQDMxMzgyZTMzMmUzMFpGeEU3a2ZoUHBlL2ZveExodlg1RnpYbDBwTC9vWk1VUkx6QnE1WHZwZHM9");
             InitializeComponent();
             MainPage = new NavigationPage(new LoginView());
         }
