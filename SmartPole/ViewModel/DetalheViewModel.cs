@@ -13,26 +13,31 @@ using Xamarin.Forms;
 namespace SmartPole.ViewModel
 {
     public class DetalheViewModel : BaseViewModel
-    {
-
-
-        /*   public static readonly SKColor TextColor = SKColors.Black;
-           private Chart chart { get; set; }
-           public Chart Chart
-           {
-               get
-               {
-                   return chart;
-               }
-               set
-               {
-                   chart = value;
-                   OnPropertyChanged();
-               }
-           }*/
-
+    {         
         public ObservableCollection<string> Dispositivos { get; set; }
-        public Entidade Collection { get; set; }
+        private Entidade collection { get; set; }
+        public Entidade Collection 
+        { 
+            get
+            {
+                return collection;
+            }
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool VazaoVisible
+        {
+            get
+            {
+                return collection.Vazao.Count > 0;
+                OnPropertyChanged();
+            }
+        }
+        
         private string dispositivoSelecionado { get; set; }
         public string DispositivoSelecionado
         {
@@ -67,8 +72,6 @@ namespace SmartPole.ViewModel
                 return !aguardar;
             }
         }
-
-
         private DateTime dataDe { get; set; }
         public DateTime DataDe
         {
@@ -114,33 +117,12 @@ namespace SmartPole.ViewModel
             });
 
             this.Dispositivos = new ObservableCollection<string>();
+            this.Collection = new Entidade();
             DataDe = DateTime.Today;
             DataAte = DateTime.Today;
 
             MessagingCenter.Send<String>(String.Empty, "ConsultarDispositivo");
         }
-
-        /* public void PreencherGraficos()
-         {
-             foreach (SensorArray entidade in Entidades)
-             {
-                 List<ChartEntry> entryList = new List<ChartEntry>();
-                 foreach (Sensor sensor in entidade.Energia)
-                 {
-                     if (sensor.Data.Date >= dataDe.Date && sensor.Data.Date <= dataAte.Date)
-                     {
-                         ChartEntry entry = new ChartEntry(float.Parse(sensor.Valor))
-                         {
-                             Label = sensor.Nome,
-                             Color = SKColor.Parse("#E52510"),
-                             TextColor = TextColor
-                         };
-                         entryList.Add(entry);
-                     }
-                 }
-                 Chart = new LineChart() { Entries = entryList };
-             }
-         }*/
 
         //HTTP metodos
         public async Task ConsultarDispositivo()
@@ -180,6 +162,8 @@ namespace SmartPole.ViewModel
 
         public async Task ConsultarHistorico()
         {
+            if(DataDe > DataAte)
+                MessagingCenter.Send<String>("Para efetuar a consulta escolha um período válido", "FalhaConsulta");
             using (HttpClient cliente = new HttpClient())
             {
                 try
@@ -190,25 +174,11 @@ namespace SmartPole.ViewModel
                     
                     HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO + parameter);
                     //HttpResponseMessage resposta = await cliente.GetAsync("https://localhost:44391/SmartMeter" + Constantes.GET_HISTORICO + parameter);
-                    //Content, Headers:
-                //    {
-                //    Date: Wed, 14 Oct 2020 01:44:27 GMT
-                //    Server: Microsoft - IIS / 10.0
-                //      Set - Cookie: ARRAffinity = 5ab7bc70e490fea62e9f935b7b1dd2146ee92be23e15e23e486a839617a1113e; Path =/; HttpOnly; Domain = smartpoleapi.azurewebsites.net
-                //      X - Android - Received - Millis: 1602639867340
-                //      X - Android - Response - Source: NETWORK 500
-                //      X - Android - Selected - Protocol: http / 1.1
-                //      X - Android - Sent - Millis: 1602639866529
-                //      X - Powered - By: ASP.NET
-                //      Content - Length: 0
-                //    }
-                //}
+                   
                     if (resposta.IsSuccessStatusCode)
                     {                        
                         string conteudo = await resposta.Content.ReadAsStringAsync();
                         Collection = JsonConvert.DeserializeObject<Entidade>(conteudo);
-                        if (Collection == null)
-                            Collection = new Entidade();
                     }
                     else
                     {

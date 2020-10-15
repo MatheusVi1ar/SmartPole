@@ -29,26 +29,38 @@
                     BorderRadius="20"
                     Command="{Binding CmdBuscar}"></Button>
                 </StackLayout>
-                <chart:SfChart>
+                <chart:SfChart x:Name="Chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding VazaoVisible}">
+                    <chart:SfChart.Legend>
+                        <chart:ChartLegend />
+                    </chart:SfChart.Legend>
 
-                    <chart:LineSeries Label="Customers" ItemsSource="{Binding Collection.Vazao}" XBindingPath="Data" YBindingPath="Valor" >
+                    <chart:SfChart.Title>
+                        <chart:ChartTitle Text="Vazão"/>
+                    </chart:SfChart.Title>
 
-                        <chart:LineSeries.YAxis>
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis>
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Data"/>
+                            </chart:CategoryAxis.Title>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
 
-                            <chart:NumericalAxis OpposedPosition="true" >
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis>
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                            </chart:NumericalAxis.Title>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
 
-                                <chart:NumericalAxis.Title>
-
-                                    <chart:ChartAxisTitle Text = "Vazão" />
-
-                                </chart:NumericalAxis.Title>
-
-                            </chart:NumericalAxis>
-
-                        </chart:LineSeries.YAxis>
-
-                    </chart:LineSeries>
-
+                    <chart:SfChart.Series>
+                            <chart:ColumnSeries Label="Vazao" ItemsSource="{Binding Collection.Vazao}" XBindingPath="Data" YBindingPath="Valor">
+                            <chart:ColumnSeries.DataMarker>
+                                <chart:ChartDataMarker/>
+                            </chart:ColumnSeries.DataMarker>
+                        </chart:ColumnSeries>
+                    </chart:SfChart.Series>
                 </chart:SfChart>
             </StackLayout>
             <StackLayout
