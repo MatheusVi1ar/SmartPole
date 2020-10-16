@@ -28,15 +28,66 @@ namespace SmartPole.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        
+        private bool vazaoVisible { get; set; }
         public bool VazaoVisible
         {
             get
             {
-                return collection.Vazao.Count > 0;
+                return vazaoVisible;
+               
+            }
+            set
+            {
+                vazaoVisible = value;
                 OnPropertyChanged();
             }
         }
+        private bool temperaturaVisible { get; set; }
+        public bool TemperaturaVisible
+        {
+            get
+            {
+                return temperaturaVisible;
+
+            }
+            set
+            {
+                temperaturaVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool luminosidadeVisible { get; set; }
+        public bool LuminosidadeVisible
+        {
+            get
+            {
+                return luminosidadeVisible;
+
+            }
+            set
+            {
+                luminosidadeVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool energiaVisible { get; set; }
+        public bool EnergiaVisible
+        {
+            get
+            {
+                return energiaVisible;
+
+            }
+            set
+            {
+                energiaVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         
         private string dispositivoSelecionado { get; set; }
         public string DispositivoSelecionado
@@ -179,6 +230,10 @@ namespace SmartPole.ViewModel
                     {                        
                         string conteudo = await resposta.Content.ReadAsStringAsync();
                         Collection = JsonConvert.DeserializeObject<Entidade>(conteudo);
+                        VazaoVisible = Collection.Vazao.Count > 0;
+                        TemperaturaVisible = Collection.Temperatura.Count > 0;
+                        LuminosidadeVisible = Collection.Luminosidade.Count > 0;
+                        EnergiaVisible = Collection.Energia.Count > 0;
                     }
                     else
                     {

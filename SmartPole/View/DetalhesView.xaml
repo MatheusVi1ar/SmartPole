@@ -6,8 +6,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="SmartPole.View.DetalhesView">
-    <ContentPage.Content>
+    <ContentPage.Content>        
         <AbsoluteLayout>
+            
             <StackLayout 
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
@@ -29,39 +30,118 @@
                     BorderRadius="20"
                     Command="{Binding CmdBuscar}"></Button>
                 </StackLayout>
-                <chart:SfChart x:Name="Chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding VazaoVisible}">
-                    <chart:SfChart.Legend>
-                        <chart:ChartLegend />
-                    </chart:SfChart.Legend>
+                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <chart:SfChart x:Name="Chart1" IsVisible="{Binding VazaoVisible}">
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Vazão"/>
+                            </chart:SfChart.Title>
 
-                    <chart:SfChart.Title>
-                        <chart:ChartTitle Text="Vazão"/>
-                    </chart:SfChart.Title>
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
 
-                    <chart:SfChart.PrimaryAxis>
-                        <chart:CategoryAxis>
-                            <chart:CategoryAxis.Title>
-                                <chart:ChartAxisTitle Text="Data"/>
-                            </chart:CategoryAxis.Title>
-                        </chart:CategoryAxis>
-                    </chart:SfChart.PrimaryAxis>
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
 
-                    <chart:SfChart.SecondaryAxis>
-                        <chart:NumericalAxis>
-                            <chart:NumericalAxis.Title>
-                                <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
-                            </chart:NumericalAxis.Title>
-                        </chart:NumericalAxis>
-                    </chart:SfChart.SecondaryAxis>
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Vazao}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
 
-                    <chart:SfChart.Series>
-                            <chart:ColumnSeries Label="Vazao" ItemsSource="{Binding Collection.Vazao}" XBindingPath="Data" YBindingPath="Valor">
-                            <chart:ColumnSeries.DataMarker>
-                                <chart:ChartDataMarker/>
-                            </chart:ColumnSeries.DataMarker>
-                        </chart:ColumnSeries>
-                    </chart:SfChart.Series>
-                </chart:SfChart>
+                        <chart:SfChart x:Name="Chart2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding TemperaturaVisible}">
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Temperatura"/>
+                            </chart:SfChart.Title>
+
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
+
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
+
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Temperatura}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
+
+                        <chart:SfChart x:Name="Chart3" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding LuminosidadeVisible}">
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Luminosidade"/>
+                            </chart:SfChart.Title>
+
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
+
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
+
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Luminosidade}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
+
+                        <chart:SfChart x:Name="Chart4" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <!--sVisible="{Binding EnergiaVisible}"!/-->
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Energia"/>
+                            </chart:SfChart.Title>
+
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
+
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
+
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Energia}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
             <StackLayout
                 IsVisible="{Binding Aguardar}"
@@ -74,6 +154,5 @@
                                    Color="Black"/>
             </StackLayout>
         </AbsoluteLayout>
-
     </ContentPage.Content>
 </ContentPage>
