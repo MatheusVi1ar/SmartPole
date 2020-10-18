@@ -41,6 +41,19 @@ namespace SmartPole.ViewModel
                 ((Command)CmdLogin).ChangeCanExecute();
             }
         }
+        private bool aguardar { get; set; }
+        public bool Aguardar
+        {
+            get
+            {
+                return aguardar;
+            }
+            set
+            {
+                aguardar = value;
+                OnPropertyChanged();
+            }
+        }
 
         public LoginViewModel()
         {
@@ -66,6 +79,8 @@ namespace SmartPole.ViewModel
         {
             using (HttpClient cliente = new HttpClient())
             {
+                bool output = false;
+                Aguardar = true;
                 //cliente.BaseAddress = new Uri();
 
                 cliente.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -81,8 +96,8 @@ namespace SmartPole.ViewModel
                         UsuarioJson usuariojson = JsonConvert.DeserializeObject<UsuarioJson>(conteudo);
 
                         if(usuariojson.senha.value == Senha)
-                        {
-                            return true;
+                        {                            
+                            output = true;
                         }
                         else
                         {
@@ -100,7 +115,8 @@ namespace SmartPole.ViewModel
                 {
                     MessagingCenter.Send<String>("Não foi possivel efetuar o login, verifique a sua conexão e tente novamente.", "FalhaLogin");
                 }
-                return false;
+                Aguardar = false;
+                return output;
             }            
         }
     }

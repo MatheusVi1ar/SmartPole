@@ -22,6 +22,8 @@ namespace SmartPole.Droid
 
             base.OnCreate(savedInstanceState);
 
+            //inicializar plugin de permissões
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

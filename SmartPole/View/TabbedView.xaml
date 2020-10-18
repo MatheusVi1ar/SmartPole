@@ -8,7 +8,7 @@
             x:Class="SmartPole.View.TabbedView"
             BarBackgroundColor="White"
             BackgroundColor="White"
-            SelectedTabColor="DarkGray"
+            SelectedTabColor="DarkGray" 
             UnselectedTabColor="LightGray">
     <local:DetalhesView Title="Postes" IconImageSource="detalhe.png"/>
     <local:GeralView Title="Visão Geral" IconImageSource="visao_geral.png"/>    

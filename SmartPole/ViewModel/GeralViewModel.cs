@@ -2,23 +2,29 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace SmartPole.ViewModel
 {
     public class GeralViewModel
     {
-        public List<string> Regioes { get; set; }        
+        public Command cmdGPS { get; set; }
         public GeralViewModel()
         {
-            Regioes = new List<string>()
+            cmdGPS = new Command(async ()=>
             {
-                "Santo André",
-                "São Bernardo",
-                "São Caetano",
-                "Diadema",
-                "Mauá",
-                "Riberão Pires"
-            };
+                var location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (location != null)
+                {
+                    Localizacao gps = new Localizacao();
+                    gps.Altitude = location.Altitude;
+                    gps.Latitude = location.Latitude;
+                    gps.Longitude = location.Longitude;
+                   MessagingCenter.Send<Localizacao>(gps, "GPS");
+                }
+            });
         }
     }
 }

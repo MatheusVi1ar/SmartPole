@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:SmartPole.ViewModel"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              mc:Ignorable="d"
              x:Class="SmartPole.View.GeralView">
     <ContentPage.BindingContext>
@@ -11,23 +12,9 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center">
-            <Picker Title="Selecione uma região" ItemsSource="{Binding Regioes}" Margin="25"></Picker>
-            <ListView ItemsSource="{Binding Sensores}" HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="200">
-                            <ViewCell.View>
-                                <StackLayout BackgroundColor="LightGray" Margin="45,0,45,0">
-                                    <Frame HeightRequest="150" WidthRequest="75" BackgroundColor="White">
-                                        <Image Source="grafico.png" Aspect="Fill" HorizontalOptions="Center"></Image>
-                                    </Frame>
-                                    <Label Text="{Binding DescricaoFormatada}" HorizontalTextAlignment="Center"></Label>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Button x:Name="btnGPS" Text="Localização" Command="{Binding cmdGPS}"></Button>
+            
         </StackLayout>
     </ContentPage.Content>
+    
 </ContentPage>

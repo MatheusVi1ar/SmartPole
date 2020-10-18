@@ -11,12 +11,15 @@
         <vm:LoginViewModel></vm:LoginViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="White">
-            <Image Source="smartcity.jpg" Aspect="AspectFill"></Image>
-            <StackLayout VerticalOptions="Center" Margin="35">
-                <Entry Placeholder="Usuário" Text="{Binding Login}" Margin="0,25,0,0"></Entry>
-                <Entry Placeholder="Senha" Text="{Binding Senha}" Margin="0,25,0,0" IsPassword="True"></Entry>
-                <Button x:Name="BtnLogin"
+        <AbsoluteLayout>
+            <StackLayout BackgroundColor="White"
+                             AbsoluteLayout.LayoutBounds="0,0,1,1"
+                             AbsoluteLayout.LayoutFlags="All">
+                <Image Source="smartcity.jpg" Aspect="AspectFill"></Image>
+                <StackLayout VerticalOptions="Center" Margin="35">
+                    <Entry Placeholder="Usuário" Text="{Binding Login}" Margin="0,25,0,0"></Entry>
+                    <Entry Placeholder="Senha" Text="{Binding Senha}" Margin="0,25,0,0" IsPassword="True"></Entry>
+                    <Button x:Name="BtnLogin"
                     Text="Acessar"
                     BackgroundColor="PaleTurquoise"  
                     Margin="40,60,40,0"
@@ -24,8 +27,8 @@
                     WidthRequest="40"
                     BorderRadius="20"
                     Command="{Binding CmdLogin}">
-                </Button>
-                <Button x:Name="BtnSobre"
+                    </Button>
+                    <Button x:Name="BtnSobre"
                     Text="Sobre"
                     BackgroundColor="PaleTurquoise"  
                     Margin="40,60,40,0"
@@ -33,8 +36,19 @@
                     WidthRequest="40"
                     BorderRadius="20"
                     Command="{Binding CmdSobre}">
-                </Button>
+                    </Button>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+            <StackLayout
+                IsVisible="{Binding Aguardar}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Gray" Opacity="0.5">
+                <ActivityIndicator IsRunning="{Binding Aguardar}" 
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   Color="Black"/>
+            </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

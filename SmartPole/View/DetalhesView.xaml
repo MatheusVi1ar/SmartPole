@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              x:Class="SmartPole.View.DetalhesView">
     <ContentPage.Content>        
-        <AbsoluteLayout>
-            
+        <AbsoluteLayout>            
             <StackLayout 
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
@@ -31,8 +30,8 @@
                     Command="{Binding CmdBuscar}"></Button>
                 </StackLayout>
                 <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <chart:SfChart x:Name="Chart1" IsVisible="{Binding VazaoVisible}">
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                        <chart:SfChart x:Name="Chart1" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding VazaoVisible}" Margin="5">
                             <chart:SfChart.Title>
                                 <chart:ChartTitle Text="Vazão"/>
                             </chart:SfChart.Title>
@@ -59,7 +58,7 @@
                             </chart:SfChart.Series>
                         </chart:SfChart>
 
-                        <chart:SfChart x:Name="Chart2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding TemperaturaVisible}">
+                        <chart:SfChart x:Name="Chart2" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding TemperaturaVisible}" Margin="5">
                             <chart:SfChart.Title>
                                 <chart:ChartTitle Text="Temperatura"/>
                             </chart:SfChart.Title>
@@ -86,7 +85,7 @@
                             </chart:SfChart.Series>
                         </chart:SfChart>
 
-                        <chart:SfChart x:Name="Chart3" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding LuminosidadeVisible}">
+                        <chart:SfChart x:Name="Chart3" HorizontalOptions="FillAndExpand" HeightRequest="300" Margin="5">
                             <chart:SfChart.Title>
                                 <chart:ChartTitle Text="Luminosidade"/>
                             </chart:SfChart.Title>
@@ -113,8 +112,7 @@
                             </chart:SfChart.Series>
                         </chart:SfChart>
 
-                        <chart:SfChart x:Name="Chart4" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <!--sVisible="{Binding EnergiaVisible}"!/-->
+                        <chart:SfChart x:Name="Chart4" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding EnergiaVisible}" Margin="5">
                             <chart:SfChart.Title>
                                 <chart:ChartTitle Text="Energia"/>
                             </chart:SfChart.Title>

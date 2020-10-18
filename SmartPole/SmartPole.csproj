@@ -12,14 +12,17 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="18.3.0.35" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="18.3.0.40" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Mono.Android">
       <HintPath>D:\VIsual\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\..\..\..\..\..\Microsoft\Xamarin\NuGet\xamarin.android.support.design\28.0.0.3\lib\monoandroid90\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
   </ItemGroup>
 
