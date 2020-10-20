@@ -85,7 +85,7 @@
                             </chart:SfChart.Series>
                         </chart:SfChart>
 
-                        <chart:SfChart x:Name="Chart3" HorizontalOptions="FillAndExpand" HeightRequest="300" Margin="5">
+                        <chart:SfChart x:Name="Chart3" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding LuminosidadeVisible}" Margin="5">
                             <chart:SfChart.Title>
                                 <chart:ChartTitle Text="Luminosidade"/>
                             </chart:SfChart.Title>

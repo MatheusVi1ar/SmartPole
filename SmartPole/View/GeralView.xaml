@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:SmartPole.ViewModel"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:gauge="clr-namespace:Syncfusion.SfGauge.XForms;assembly=Syncfusion.SfGauge.XForms"
              mc:Ignorable="d"
              x:Class="SmartPole.View.GeralView">
     <ContentPage.BindingContext>
@@ -14,7 +14,25 @@
         <StackLayout HorizontalOptions="Center">
             <Button x:Name="btnGPS" Text="Localização" Command="{Binding cmdGPS}"></Button>
             
+            <gauge:SfCircularGauge VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="10">
+                <gauge:SfCircularGauge.Headers>
+                    <gauge:Header Text="Speedometer" ForegroundColor="Black" TextSize="20" />
+                </gauge:SfCircularGauge.Headers>
+                <gauge:SfCircularGauge.Scales>
+                    <gauge:Scale>
+                        <gauge:Scale.Ranges>
+                            <gauge:Range StartValue="0" EndValue="40"/>
+                        </gauge:Scale.Ranges>
+                        <gauge:Scale.Pointers>
+                            <gauge:NeedlePointer  Value="60" />
+                            <gauge:RangePointer Value="60" />
+                            <gauge:MarkerPointer Value="70" />
+                        </gauge:Scale.Pointers>
+                    </gauge:Scale>
+                </gauge:SfCircularGauge.Scales>
+            </gauge:SfCircularGauge>
+            
         </StackLayout>
     </ContentPage.Content>
-    
+
 </ContentPage>
