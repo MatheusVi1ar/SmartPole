@@ -88,7 +88,36 @@ namespace SmartPole.ViewModel
             }
         }
 
-        
+        private bool gasVisible { get; set; }
+        public bool GasVisible
+        {
+            get
+            {
+                return gasVisible;
+
+            }
+            set
+            {
+                gasVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool umidadeVisible { get; set; }
+        public bool UmidadeVisible
+        {
+            get
+            {
+                return umidadeVisible;
+
+            }
+            set
+            {
+                umidadeVisible = value;
+                OnPropertyChanged();
+            }
+        }     
+
         private string dispositivoSelecionado { get; set; }
         public string DispositivoSelecionado
         {
@@ -234,6 +263,8 @@ namespace SmartPole.ViewModel
                         TemperaturaVisible = Collection.Temperatura.Count > 0;
                         LuminosidadeVisible = Collection.Luminosidade.Count > 0;
                         EnergiaVisible = Collection.Energia.Count > 0;
+                        UmidadeVisible = Collection.Umidade.Count > 0;
+                        GasVisible = Collection.Gas.Count > 0;
                     }
                     else
                     {

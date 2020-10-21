@@ -47,7 +47,7 @@
                             <chart:SfChart.SecondaryAxis>
                                 <chart:NumericalAxis>
                                     <chart:NumericalAxis.Title>
-                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                        <chart:ChartAxisTitle Text="Valor"/>
                                     </chart:NumericalAxis.Title>
                                 </chart:NumericalAxis>
                             </chart:SfChart.SecondaryAxis>
@@ -74,7 +74,7 @@
                             <chart:SfChart.SecondaryAxis>
                                 <chart:NumericalAxis>
                                     <chart:NumericalAxis.Title>
-                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                        <chart:ChartAxisTitle Text="Valor"/>
                                     </chart:NumericalAxis.Title>
                                 </chart:NumericalAxis>
                             </chart:SfChart.SecondaryAxis>
@@ -101,7 +101,7 @@
                             <chart:SfChart.SecondaryAxis>
                                 <chart:NumericalAxis>
                                     <chart:NumericalAxis.Title>
-                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                        <chart:ChartAxisTitle Text="Valor"/>
                                     </chart:NumericalAxis.Title>
                                 </chart:NumericalAxis>
                             </chart:SfChart.SecondaryAxis>
@@ -128,13 +128,67 @@
                             <chart:SfChart.SecondaryAxis>
                                 <chart:NumericalAxis>
                                     <chart:NumericalAxis.Title>
-                                        <chart:ChartAxisTitle Text="Valor (em m³/s)"/>
+                                        <chart:ChartAxisTitle Text="Valor"/>
                                     </chart:NumericalAxis.Title>
                                 </chart:NumericalAxis>
                             </chart:SfChart.SecondaryAxis>
 
                             <chart:SfChart.Series>
                                 <chart:LineSeries ItemsSource="{Binding Collection.Energia}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
+
+                        <chart:SfChart x:Name="Chart5" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding GasVisible}" Margin="5">
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Gás"/>
+                            </chart:SfChart.Title>
+
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
+
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
+
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Gas}" XBindingPath="Data" YBindingPath="Valor">
+                                </chart:LineSeries>
+                            </chart:SfChart.Series>
+                        </chart:SfChart>
+
+                        <chart:SfChart x:Name="Chart6" HorizontalOptions="FillAndExpand" HeightRequest="300" IsVisible="{Binding UmidadeVisible}" Margin="5">
+                            <chart:SfChart.Title>
+                                <chart:ChartTitle Text="Umidade"/>
+                            </chart:SfChart.Title>
+
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:CategoryAxis>
+                                    <chart:CategoryAxis.Title>
+                                        <chart:ChartAxisTitle Text="Data"/>
+                                    </chart:CategoryAxis.Title>
+                                </chart:CategoryAxis>
+                            </chart:SfChart.PrimaryAxis>
+
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis>
+                                    <chart:NumericalAxis.Title>
+                                        <chart:ChartAxisTitle Text="Valor"/>
+                                    </chart:NumericalAxis.Title>
+                                </chart:NumericalAxis>
+                            </chart:SfChart.SecondaryAxis>
+
+                            <chart:SfChart.Series>
+                                <chart:LineSeries ItemsSource="{Binding Collection.Umidade}" XBindingPath="Data" YBindingPath="Valor">
                                 </chart:LineSeries>
                             </chart:SfChart.Series>
                         </chart:SfChart>
