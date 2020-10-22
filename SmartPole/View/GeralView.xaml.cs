@@ -1,5 +1,6 @@
 ﻿using Android.Views;
 using SmartPole.Model;
+using SmartPole.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,14 +16,18 @@ namespace SmartPole.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GeralView : ContentPage
     {
+        GeralViewModel viewModel { get; set; }
         public GeralView()
         {
             InitializeComponent();
+            viewModel = new GeralViewModel();
+            this.BindingContext = viewModel;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            viewModel.ConsultarDispositivo();
 
             MessagingCenter.Subscribe<Localizacao>(this, "GPS", async (msg) =>
             {
@@ -36,13 +41,19 @@ namespace SmartPole.View
                 //await Launcher.OpenAsync("https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393");
                 //CrossExternalMaps.Current.NavigateTo("Macoratti", latitude, longitude);
             });
+
+            MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
+            {
+                DisplayAlert("Erro de conexão", msg, "Ok");
+            });
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            MessagingCenter.Unsubscribe<String>(this, "GPS");
+            MessagingCenter.Unsubscribe<Localizacao>(this, "GPS");
+            MessagingCenter.Unsubscribe<String>(this, "FalhaConsulta");
         }
     }
 }

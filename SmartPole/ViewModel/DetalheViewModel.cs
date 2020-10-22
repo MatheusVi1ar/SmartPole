@@ -13,11 +13,11 @@ using Xamarin.Forms;
 namespace SmartPole.ViewModel
 {
     public class DetalheViewModel : BaseViewModel
-    {         
+    {
         public ObservableCollection<string> Dispositivos { get; set; }
         private Entidade collection { get; set; }
-        public Entidade Collection 
-        { 
+        public Entidade Collection
+        {
             get
             {
                 return collection;
@@ -28,14 +28,14 @@ namespace SmartPole.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+
         private bool vazaoVisible { get; set; }
         public bool VazaoVisible
         {
             get
             {
                 return vazaoVisible;
-               
+
             }
             set
             {
@@ -116,7 +116,7 @@ namespace SmartPole.ViewModel
                 umidadeVisible = value;
                 OnPropertyChanged();
             }
-        }     
+        }
 
         private string dispositivoSelecionado { get; set; }
         public string DispositivoSelecionado
@@ -128,7 +128,7 @@ namespace SmartPole.ViewModel
             set
             {
                 dispositivoSelecionado = value;
-                ((Command)CmdBuscar).ChangeCanExecute();                
+                ((Command)CmdBuscar).ChangeCanExecute();
             }
         }
         private bool aguardar { get; set; }
@@ -200,116 +200,42 @@ namespace SmartPole.ViewModel
             this.Collection = new Entidade();
             DataDe = DateTime.Today;
             DataAte = DateTime.Today;
-
-            MessagingCenter.Send<String>(String.Empty, "ConsultarDispositivo");
         }
 
         //HTTP metodos
-        public async Task ConsultarDispositivo()
+        public async void ConsultarDispositivo()
         {
-            if (Dispositivos.Count > 0)
-                return;
+            if (this.Dispositivos.Count > 0)
+                Dispositivos.Clear();
 
-            using (HttpClient cliente = new HttpClient())
+            Aguardar = true;
+            //Dispositivos.Clear();            
+            SmartPole.Servico.Service service = new SmartPole.Servico.Service();
+            List<string> lista = await service.ConsultarDispositivo();
+            lista.ForEach((item) =>
             {
-                try
-                {
-                    Aguardar = true;
-
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_DISPOSITIVO);
-                    if (resposta.IsSuccessStatusCode)
-                    {
-                        Dispositivos.Clear();
-                        string conteudo = await resposta.Content.ReadAsStringAsync();
-                        List<string> lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();
-                        lista.ForEach((item) =>
-                        {
-                            Dispositivos.Add(item);
-                        });
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
-                    }
-                }
-                catch (HttpRequestException)
-                {
-                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
-                }
-                Aguardar = false;
-            }
+                Dispositivos.Add(item);
+            });
+            Aguardar = false;
         }
 
         public async Task ConsultarHistorico()
         {
-            if(DataDe > DataAte)
+            if (DataDe > DataAte)
                 MessagingCenter.Send<String>("Para efetuar a consulta escolha um período válido", "FalhaConsulta");
-            using (HttpClient cliente = new HttpClient())
-            {
-                try
-                {
-                    Aguardar = true;
-                    cliente.DefaultRequestHeaders.Add("Accept", "application/json");
-                    string parameter = String.Format("?dispositivo={0}&dataDe={1}&dataAte={2}",DispositivoSelecionado,DataDe.Date.ToString("dd/MM/yyyy"), DataAte.Date.ToString("dd/MM/yyyy"));
-                    
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_HISTORICO + parameter);
-                    //HttpResponseMessage resposta = await cliente.GetAsync("https://localhost:44391/SmartMeter" + Constantes.GET_HISTORICO + parameter);
-                   
-                    if (resposta.IsSuccessStatusCode)
-                    {                        
-                        string conteudo = await resposta.Content.ReadAsStringAsync();
-                        Collection = JsonConvert.DeserializeObject<Entidade>(conteudo);
-                        VazaoVisible = Collection.Vazao.Count > 0;
-                        TemperaturaVisible = Collection.Temperatura.Count > 0;
-                        LuminosidadeVisible = Collection.Luminosidade.Count > 0;
-                        EnergiaVisible = Collection.Energia.Count > 0;
-                        UmidadeVisible = Collection.Umidade.Count > 0;
-                        GasVisible = Collection.Gas.Count > 0;
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
-                    }
-                }
-                catch (HttpRequestException)
-                {
-                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
-                }
-                Aguardar = false;
-            }
-        }
 
-        public async Task ConsultarDados(string selecionado)
-        {
-            if (string.IsNullOrEmpty(selecionado))
-                return;
-            using (HttpClient cliente = new HttpClient())
-            {
-                cliente.DefaultRequestHeaders.Add("Accept", "application/json");
-                cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
-                cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
-                try
-                {
-                    Aguardar = true;
+            Aguardar = true;
+            SmartPole.Servico.Service service = new SmartPole.Servico.Service();
+            Collection = await service.ConsultarHistorico(DispositivoSelecionado, DataDe, DataAte);
 
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + selecionado);
-                    if (resposta.IsSuccessStatusCode)
-                    {
-                        string conteudo = await resposta.Content.ReadAsStringAsync();
-                      //  DispositivoJson aux = JsonConvert.DeserializeObject<DispositivoJson>(conteudo);
-                        string x = "1";
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
-                    }
-                }
-                catch (HttpRequestException)
-                {
-                    MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
-                }
-                Aguardar = false;
-            }
+            VazaoVisible = Collection.Vazao.Count > 0;
+            TemperaturaVisible = Collection.Temperatura.Count > 0;
+            LuminosidadeVisible = Collection.Luminosidade.Count > 0;
+            EnergiaVisible = Collection.Energia.Count > 0;
+            UmidadeVisible = Collection.Umidade.Count > 0;
+            GasVisible = Collection.Gas.Count > 0;
+
+            Aguardar = false;
         }
     }
 }

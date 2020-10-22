@@ -20,11 +20,11 @@ namespace SmartPole.View
             viewModel = new DetalheViewModel();
             this.BindingContext = viewModel;
         }
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            await viewModel.ConsultarDispositivo();
+            viewModel.ConsultarDispositivo();
 
             MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
             {

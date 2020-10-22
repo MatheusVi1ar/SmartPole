@@ -60,7 +60,8 @@ namespace SmartPole.ViewModel
             Usuario = new UsuarioModel();
             CmdLogin = new Command(async () =>
             {
-                if (await ValidaUsuario())
+                Servico.Service service = new Servico.Service();
+                if (await service.ValidaUsuario(Usuario))
                     MessagingCenter.Send<UsuarioModel>(Usuario, "SucessoLogin");               
             }, () =>
              {
@@ -74,50 +75,5 @@ namespace SmartPole.ViewModel
         }
         public ICommand CmdLogin { get; set; }
         public ICommand CmdSobre { get; set; }
-
-        public async Task<bool> ValidaUsuario()
-        {
-            using (HttpClient cliente = new HttpClient())
-            {
-                bool output = false;
-                Aguardar = true;
-                //cliente.BaseAddress = new Uri();
-
-                cliente.DefaultRequestHeaders.Add("Accept", "application/json");
-                cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
-                cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
-
-                try
-                {
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + Usuario.Login);
-                    if (resposta.IsSuccessStatusCode)
-                    {
-                        string conteudo = await resposta.Content.ReadAsStringAsync();
-                        UsuarioJson usuariojson = JsonConvert.DeserializeObject<UsuarioJson>(conteudo);
-
-                        if(usuariojson.senha.value == Senha)
-                        {                            
-                            output = true;
-                        }
-                        else
-                        {
-                            MessagingCenter.Send<String>("Usuario/Senha incorretos.", "FalhaLogin");
-                        }
-
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<String>("Usuario/Senha incorretos.", "FalhaLogin");
-                    }
-
-                }
-                catch (HttpRequestException)
-                {
-                    MessagingCenter.Send<String>("Não foi possivel efetuar o login, verifique a sua conexão e tente novamente.", "FalhaLogin");
-                }
-                Aguardar = false;
-                return output;
-            }            
-        }
     }
 }
