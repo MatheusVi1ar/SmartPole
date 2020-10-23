@@ -11,5 +11,15 @@ namespace SmartPole.Model
         public const string URL_API = "https://smartpoleapi.azurewebsites.net";
         public const string GET_DISPOSITIVO = "/smartmeter";
         public const string GET_HISTORICO = "/smartmeter/GetHistorico";
+
+        public enum TipoSensor
+        {                       
+            Energia,
+            Gás,
+            Luz,
+            Temperatura,
+            Umidade,
+            Vazão
+        }
     }
 }

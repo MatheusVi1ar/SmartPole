@@ -15,105 +15,17 @@ namespace SmartPole.ViewModel
     public class DetalheViewModel : BaseViewModel
     {
         public ObservableCollection<string> Dispositivos { get; set; }
-        private Entidade collection { get; set; }
-        public Entidade Collection
+        public ObservableCollection<string> TiposSensores { get; set; }
+        private List<Sensor> listaChart { get; set; }
+        public List<Sensor> ListaChart
         {
             get
             {
-                return collection;
+                return listaChart;
             }
             set
             {
-                collection = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool vazaoVisible { get; set; }
-        public bool VazaoVisible
-        {
-            get
-            {
-                return vazaoVisible;
-
-            }
-            set
-            {
-                vazaoVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool temperaturaVisible { get; set; }
-        public bool TemperaturaVisible
-        {
-            get
-            {
-                return temperaturaVisible;
-
-            }
-            set
-            {
-                temperaturaVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool luminosidadeVisible { get; set; }
-        public bool LuminosidadeVisible
-        {
-            get
-            {
-                return luminosidadeVisible;
-
-            }
-            set
-            {
-                luminosidadeVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool energiaVisible { get; set; }
-        public bool EnergiaVisible
-        {
-            get
-            {
-                return energiaVisible;
-
-            }
-            set
-            {
-                energiaVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool gasVisible { get; set; }
-        public bool GasVisible
-        {
-            get
-            {
-                return gasVisible;
-
-            }
-            set
-            {
-                gasVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool umidadeVisible { get; set; }
-        public bool UmidadeVisible
-        {
-            get
-            {
-                return umidadeVisible;
-
-            }
-            set
-            {
-                umidadeVisible = value;
+                listaChart = value;
                 OnPropertyChanged();
             }
         }
@@ -131,6 +43,49 @@ namespace SmartPole.ViewModel
                 ((Command)CmdBuscar).ChangeCanExecute();
             }
         }
+
+        private string sensorSelecionado { get; set; }
+        public string SensorSelecionado
+        {
+            get
+            {
+                return sensorSelecionado;
+            }
+            set
+            {
+                sensorSelecionado = value;
+                ((Command)CmdBuscar).ChangeCanExecute();
+            }
+        }
+
+        private string titulo { get; set; }
+        public string Titulo
+        {
+            get
+            {
+                return titulo;
+            }
+            set
+            {
+                titulo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool isVisible { get; set; }
+        public bool IsVisible
+        {
+            get
+            {
+                return isVisible;
+            }
+            set
+            {
+                isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool aguardar { get; set; }
         public bool Aguardar
         {
@@ -193,11 +148,20 @@ namespace SmartPole.ViewModel
             {
                 return DataDe != null
                 && DataAte != null
-                && !string.IsNullOrEmpty(dispositivoSelecionado);
+                && !string.IsNullOrEmpty(dispositivoSelecionado)
+                && !string.IsNullOrEmpty(SensorSelecionado);
             });
 
+            this.ListaChart = new List<Sensor>();
             this.Dispositivos = new ObservableCollection<string>();
-            this.Collection = new Entidade();
+            this.TiposSensores = new ObservableCollection<string>();
+
+            Enum.GetNames(typeof(Constantes.TipoSensor)).Select(b => b).ToList().ForEach((item)=>
+            {
+                this.TiposSensores.Add(item);
+            });
+
+            IsVisible = false;
             DataDe = DateTime.Today;
             DataAte = DateTime.Today;
         }
@@ -226,15 +190,36 @@ namespace SmartPole.ViewModel
 
             Aguardar = true;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
-            Collection = await service.ConsultarHistorico(DispositivoSelecionado, DataDe, DataAte);
+            Entidade aux = await service.ConsultarHistorico(DispositivoSelecionado, DataDe, DataAte);
 
-            VazaoVisible = Collection.Vazao.Count > 0;
-            TemperaturaVisible = Collection.Temperatura.Count > 0;
-            LuminosidadeVisible = Collection.Luminosidade.Count > 0;
-            EnergiaVisible = Collection.Energia.Count > 0;
-            UmidadeVisible = Collection.Umidade.Count > 0;
-            GasVisible = Collection.Gas.Count > 0;
+            if (SensorSelecionado == Constantes.TipoSensor.Energia.ToString())
+                ListaChart = aux.Energia;
 
+            if (SensorSelecionado == Constantes.TipoSensor.Gás.ToString())
+                ListaChart = aux.Gas;
+
+            if (SensorSelecionado == Constantes.TipoSensor.Luz.ToString())
+                ListaChart = aux.Luminosidade;
+
+            if (SensorSelecionado == Constantes.TipoSensor.Temperatura.ToString())
+                ListaChart = aux.Temperatura;
+
+            if (SensorSelecionado == Constantes.TipoSensor.Umidade.ToString())
+                ListaChart = aux.Umidade;
+
+            if (SensorSelecionado == Constantes.TipoSensor.Vazão.ToString())
+                ListaChart = aux.Vazao;
+
+            Titulo = SensorSelecionado;
+            IsVisible = true;
+
+            /* VazaoVisible = Collection.Vazao.Count > 0;
+             TemperaturaVisible = Collection.Temperatura.Count > 0;
+             LuminosidadeVisible = Collection.Luminosidade.Count > 0;
+             EnergiaVisible = Collection.Energia.Count > 0;
+             UmidadeVisible = Collection.Umidade.Count > 0;
+             GasVisible = Collection.Gas.Count > 0;
+            */
             Aguardar = false;
         }
     }
