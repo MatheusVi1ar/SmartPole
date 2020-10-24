@@ -15,97 +15,29 @@
             <StackLayout 
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Picker x:Name="ddDispositivo" Title="Selecione um dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" Margin="25" HorizontalOptions="StartAndExpand"></Picker>
+                <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                    <StackLayout Orientation="Horizontal">
+                        <Picker x:Name="ddDispositivo" Title="Selecione dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="0,15,15,0"></Picker>
+                        <Picker x:Name="ddSensor" Title="Selec. Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}" Margin="0,15,15,0"></Picker>
+                    </StackLayout>
                     <Button x:Name="btnGPS"
                     Text="Localização"
                     BackgroundColor="PaleTurquoise"  
                     Margin="0,25,0,25"
-                    BorderRadius="10"
-                    IsVisible="{Binding LocalVisible}"
+                    BorderRadius="10"                    
                     Command="{Binding cmdGPS}"></Button>
                 </StackLayout>
                 <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-                    <StackLayout HorizontalOptions="FillAndExpand">
-                        <gauge:SfCircularGauge IsVisible="{Binding VazaoVisible}">
+                    <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding GaugeVisible}">
+                        <gauge:SfCircularGauge >
                             <gauge:SfCircularGauge.Headers>
                                 <gauge:Header Text="Vazão" ForegroundColor="Black" TextSize="20" />
                             </gauge:SfCircularGauge.Headers>
                             <gauge:SfCircularGauge.Scales>
                                 <gauge:Scale>
                                     <gauge:Scale.Pointers>
-                                        <gauge:RangePointer  Value="{Binding DadosRecentes.vazao.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.vazao.value}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-
-                        <gauge:SfCircularGauge IsVisible="{Binding TemperaturaVisible}">
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Temperatura" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer Value="{Binding DadosRecentes.temperatura.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.temperatura.value}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-
-                        <gauge:SfCircularGauge IsVisible="{Binding LuminosidadeVisible}">
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Luminosidade" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer Value="{Binding DadosRecentes.luminosidade.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.luminosidade.value}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-
-                        <gauge:SfCircularGauge IsVisible="{Binding EnergiaVisible}">
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Energia" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer Value="{Binding DadosRecentes.energia.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.energia.value}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-
-                        <gauge:SfCircularGauge IsVisible="{Binding GasVisible}">
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Gás" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer Value="{Binding DadosRecentes.gas.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.gas.value}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-
-                        <gauge:SfCircularGauge IsVisible="{Binding UmidadeVisible}">
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Umidade" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer Value="{Binding DadosRecentes.umidade.value}" />
-                                        <gauge:NeedlePointer Value="{Binding DadosRecentes.umidade.value}" />
+                                        <gauge:RangePointer  Value="{Binding ValorGrafico}" />
+                                        <gauge:NeedlePointer Value="{Binding ValorGrafico}" />
                                     </gauge:Scale.Pointers>
                                 </gauge:Scale>
                             </gauge:SfCircularGauge.Scales>

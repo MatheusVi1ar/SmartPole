@@ -11,16 +11,16 @@
             <StackLayout 
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
-                <StackLayout>
-                    <Picker x:Name="ddDispositivo" Title="Selecione um dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="25,25,25,15"></Picker>
-                    <Picker x:Name="ddSensor" Title="Selecione um sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}" HorizontalOptions="Start"  Margin="25,0,25,0"></Picker>
-                </StackLayout>                
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="20">
-                    <StackLayout Orientation ="Vertical">
+                <StackLayout Orientation="Horizontal">
+                    <Picker x:Name="ddDispositivo" Title="Selec. um Dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="15,15,15,0"></Picker>
+                    <Picker x:Name="ddSensor" Title="Selec. um Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}"  Margin="0,15,15,0"></Picker>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,5,25,25">
+                    <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
                         <Label Text="De"></Label>
                         <DatePicker Date="{Binding DataDe}"></DatePicker>
                     </StackLayout>
-                    <StackLayout Orientation ="Vertical">
+                    <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
                         <Label Text="Até"></Label>
                         <DatePicker Date="{Binding DataAte}"></DatePicker>
                     </StackLayout>
@@ -32,36 +32,30 @@
                     BorderRadius="20"
                     Command="{Binding CmdBuscar}"></Button>
                 </StackLayout>
-                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-                    <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding isVisible}" >
-                        <chart:SfChart x:Name="Chart1" HorizontalOptions="FillAndExpand" HeightRequest="300" Margin="5">
-                            <chart:SfChart.Title>
-                                <chart:ChartTitle Text="{Binding Titulo}}"/>
-                            </chart:SfChart.Title>
+                <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsVisible}">
+                    <chart:SfChart x:Name="Chart1" HorizontalOptions="FillAndExpand" HeightRequest="375" Margin="5,0,20,0">
+                        <chart:SfChart.PrimaryAxis>
+                            <chart:CategoryAxis>
+                                <chart:CategoryAxis.Title>
+                                    <chart:ChartAxisTitle Text="Data"/>
+                                </chart:CategoryAxis.Title>
+                            </chart:CategoryAxis>
+                        </chart:SfChart.PrimaryAxis>
 
-                            <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis>
-                                    <chart:CategoryAxis.Title>
-                                        <chart:ChartAxisTitle Text="Data"/>
-                                    </chart:CategoryAxis.Title>
-                                </chart:CategoryAxis>
-                            </chart:SfChart.PrimaryAxis>
+                        <chart:SfChart.SecondaryAxis>
+                            <chart:NumericalAxis>
+                                <chart:NumericalAxis.Title>
+                                    <chart:ChartAxisTitle Text="Valor"/>
+                                </chart:NumericalAxis.Title>
+                            </chart:NumericalAxis>
+                        </chart:SfChart.SecondaryAxis>
 
-                            <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis>
-                                    <chart:NumericalAxis.Title>
-                                        <chart:ChartAxisTitle Text="Valor"/>
-                                    </chart:NumericalAxis.Title>
-                                </chart:NumericalAxis>
-                            </chart:SfChart.SecondaryAxis>
-
-                            <chart:SfChart.Series>
-                                <chart:LineSeries ItemsSource="{Binding ListaChart}" XBindingPath="Data" YBindingPath="Valor">
-                                </chart:LineSeries>
-                            </chart:SfChart.Series>
-                        </chart:SfChart>
-                    </StackLayout>
-                </ScrollView>
+                        <chart:SfChart.Series>
+                            <chart:LineSeries ItemsSource="{Binding ListaChart}" XBindingPath="Data" YBindingPath="Valor">
+                            </chart:LineSeries>
+                        </chart:SfChart.Series>
+                    </chart:SfChart>
+                </StackLayout>
             </StackLayout>
             <StackLayout
                 IsVisible="{Binding Aguardar}"

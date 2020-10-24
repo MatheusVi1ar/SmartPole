@@ -60,9 +60,11 @@ namespace SmartPole.ViewModel
             Usuario = new UsuarioModel();
             CmdLogin = new Command(async () =>
             {
+                aguardar = true;
                 Servico.Service service = new Servico.Service();
                 if (await service.ValidaUsuario(Usuario))
-                    MessagingCenter.Send<UsuarioModel>(Usuario, "SucessoLogin");               
+                    MessagingCenter.Send<UsuarioModel>(Usuario, "SucessoLogin");
+                aguardar = false;
             }, () =>
              {
                  return !string.IsNullOrEmpty(Login)

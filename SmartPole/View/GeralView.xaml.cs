@@ -22,7 +22,9 @@ namespace SmartPole.View
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.ConsultarDispositivo();
+
+            if (viewModel.Dispositivos.Count == 0)
+                viewModel.ConsultarDispositivo();
 
             MessagingCenter.Subscribe<Localizacao>(this, "GPS", async (msg) =>
             {

@@ -16,6 +16,7 @@ namespace SmartPole.ViewModel
     public class GeralViewModel : BaseViewModel
     {
         public ObservableCollection<string> Dispositivos { get; set; }
+        public ObservableCollection<string> TiposSensores { get; set; }
         DadosJson DadosRecentes { get; set; }
         private Entidade collection { get; set; }
         public Entidade Collection
@@ -31,89 +32,6 @@ namespace SmartPole.ViewModel
             }
         }
 
-        private bool vazaoVisible { get; set; }
-        public bool VazaoVisible
-        {
-            get
-            {
-                return vazaoVisible;
-
-            }
-            set
-            {
-                vazaoVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool temperaturaVisible { get; set; }
-        public bool TemperaturaVisible
-        {
-            get
-            {
-                return temperaturaVisible;
-
-            }
-            set
-            {
-                temperaturaVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool luminosidadeVisible { get; set; }
-        public bool LuminosidadeVisible
-        {
-            get
-            {
-                return luminosidadeVisible;
-
-            }
-            set
-            {
-                luminosidadeVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool energiaVisible { get; set; }
-        public bool EnergiaVisible
-        {
-            get
-            {
-                return energiaVisible;
-            }
-            set
-            {
-                energiaVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool umidadeVisible { get; set; }
-        public bool UmidadeVisible
-        {
-            get
-            {
-                return umidadeVisible;
-            }
-            set
-            {
-                umidadeVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool gasVisible { get; set; }
-        public bool GasVisible
-        {
-            get
-            {
-                return gasVisible;
-            }
-            set
-            {
-                gasVisible = value;
-                OnPropertyChanged();
-            }
-        }
         private bool localVisible { get; set; }
         public bool LocalVisible
         {
@@ -124,7 +42,7 @@ namespace SmartPole.ViewModel
             set
             {
                 localVisible = value;
-                OnPropertyChanged();
+                ((Command)cmdGPS).ChangeCanExecute();
             }
         }
 
@@ -142,9 +60,41 @@ namespace SmartPole.ViewModel
                 {
                     ConsultarDados(dispositivoSelecionado);
                 }
-                LocalVisible = (value != null);                
+                LocalVisible = (value != null);
             }
         }
+
+        private string sensorSelecionado { get; set; }
+        public string SensorSelecionado
+        {
+            get
+            {
+                return sensorSelecionado;
+            }
+            set
+            {
+                sensorSelecionado = value;
+                if (value != null)
+                {
+                    MostrarGrafico(sensorSelecionado);
+                }
+            }
+        }
+
+        private string valorGrafico { get; set; }
+        public string ValorGrafico
+        {
+            get
+            {
+                return valorGrafico;
+            }
+            set
+            {
+                valorGrafico = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool aguardar { get; set; }
         public bool Aguardar
         {
@@ -167,13 +117,41 @@ namespace SmartPole.ViewModel
             }
         }
 
+        private bool gaugeVisible { get; set; }
+        public bool GaugeVisible
+        {
+            get
+            {
+                return gaugeVisible;
+            }
+            set
+            {
+                gaugeVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool sensorVisible { get; set; }
+        public bool SensorVisible
+        {
+            get
+            {
+                return sensorVisible;
+            }
+            set
+            {
+                sensorVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         //HTTP metodos
         public async void ConsultarDispositivo()
         {
             if (Dispositivos.Count > 0)
                 Dispositivos.Clear();
 
-            Aguardar = true;            
+            Aguardar = true;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             List<string> lista = await service.ConsultarDispositivo();
             lista.ForEach((item) =>
@@ -188,60 +166,41 @@ namespace SmartPole.ViewModel
             Aguardar = true;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             DadosRecentes = await service.ConsultarDados(selecionado);
-
+            TiposSensores.Clear();
             if (DadosRecentes.vazao != null)
-            {
-                VazaoVisible = !string.IsNullOrEmpty(DadosRecentes.vazao.value);
-            }
-            else
-            {
-                VazaoVisible = false;
-            }
-
+                TiposSensores.Add(Constantes.TipoSensor.Vazão.ToString());
             if (DadosRecentes.temperatura != null)
-            {
-                TemperaturaVisible = !string.IsNullOrEmpty(DadosRecentes.temperatura.value);
-            }
-            else
-            {
-                TemperaturaVisible = false;
-            }
-
+                TiposSensores.Add(Constantes.TipoSensor.Temperatura.ToString());
             if (DadosRecentes.luminosidade != null)
-            {
-                LuminosidadeVisible = !string.IsNullOrEmpty(DadosRecentes.luminosidade.value);
-            }
-            else
-            {
-                LuminosidadeVisible = false;
-            }
-
+                TiposSensores.Add(Constantes.TipoSensor.Luz.ToString());
             if (DadosRecentes.energia != null)
-                EnergiaVisible = !string.IsNullOrEmpty(DadosRecentes.energia.value);
-            else
-            {
-                EnergiaVisible = false;
-            }
-
+                TiposSensores.Add(Constantes.TipoSensor.Energia.ToString());
             if (DadosRecentes.umidade != null)
-            {
-                UmidadeVisible = !string.IsNullOrEmpty(DadosRecentes.umidade.value);
-            }
-            else
-            {
-                UmidadeVisible = false;
-            }
-
+                TiposSensores.Add(Constantes.TipoSensor.Umidade.ToString());
             if (DadosRecentes.gas != null)
-            {
-                GasVisible = !string.IsNullOrEmpty(DadosRecentes.gas.value);
-            }
-            else
-            {
-                GasVisible = false;
-            }
+                TiposSensores.Add(Constantes.TipoSensor.Gás.ToString());
 
+            SensorVisible = TiposSensores.Count > 0;
+            GaugeVisible = false;
             Aguardar = false;
+        }
+
+        public void MostrarGrafico(string selecionado)
+        {
+            GaugeVisible = true;
+            if (selecionado == Constantes.TipoSensor.Vazão.ToString())
+                ValorGrafico = DadosRecentes.vazao.value;
+            if (selecionado == Constantes.TipoSensor.Temperatura.ToString())
+                ValorGrafico = DadosRecentes.temperatura.value;
+            else if (selecionado == Constantes.TipoSensor.Luz.ToString())
+                ValorGrafico = DadosRecentes.luminosidade.value;
+            else if (selecionado == Constantes.TipoSensor.Energia.ToString())
+                ValorGrafico = DadosRecentes.energia.value;
+            else if (selecionado == Constantes.TipoSensor.Umidade.ToString())
+                ValorGrafico = DadosRecentes.umidade.value;
+            else if (selecionado == Constantes.TipoSensor.Gás.ToString())
+                ValorGrafico = DadosRecentes.gas.value;
+
         }
 
         public Command cmdGPS { get; set; }
@@ -259,10 +218,21 @@ namespace SmartPole.ViewModel
                     gps.Longitude = location.Longitude;
                     MessagingCenter.Send(gps, "GPS");
                 }
+            },
+            () =>
+            {
+                return LocalVisible;
             });
 
-            this.Dispositivos = new ObservableCollection<string>();
-            this.Collection = new Entidade();
+            if (this.Dispositivos == null)
+                this.Dispositivos = new ObservableCollection<string>();
+            if (this.TiposSensores == null)
+                this.TiposSensores = new ObservableCollection<string>();
+            if (this.Collection == null)
+                this.Collection = new Entidade();
+
+            GaugeVisible = false;
+            SensorVisible = false;
         }
     }
 }

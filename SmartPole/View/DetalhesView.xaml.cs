@@ -24,7 +24,8 @@ namespace SmartPole.View
         {
             base.OnAppearing();
 
-            viewModel.ConsultarDispositivo();
+            if(viewModel.Dispositivos.Count == 0)
+                viewModel.ConsultarDispositivo();
 
             MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
             {

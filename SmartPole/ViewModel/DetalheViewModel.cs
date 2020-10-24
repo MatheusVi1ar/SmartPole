@@ -152,18 +152,26 @@ namespace SmartPole.ViewModel
                 && !string.IsNullOrEmpty(SensorSelecionado);
             });
 
-            this.ListaChart = new List<Sensor>();
-            this.Dispositivos = new ObservableCollection<string>();
-            this.TiposSensores = new ObservableCollection<string>();
-
-            Enum.GetNames(typeof(Constantes.TipoSensor)).Select(b => b).ToList().ForEach((item)=>
+            if (this.ListaChart == null)
+                this.ListaChart = new List<Sensor>();
+            if (this.Dispositivos == null)
+                this.Dispositivos = new ObservableCollection<string>();
+            if (this.TiposSensores == null)
             {
-                this.TiposSensores.Add(item);
-            });
+                this.TiposSensores = new ObservableCollection<string>();
+                Enum.GetNames(typeof(Constantes.TipoSensor)).Select(b => b).ToList().ForEach((item) =>
+                {
+                    this.TiposSensores.Add(item);
+                });
+            }
 
-            IsVisible = false;
-            DataDe = DateTime.Today;
-            DataAte = DateTime.Today;
+            if (this.Dispositivos == null)
+                IsVisible = false;
+
+            if (this.DataDe == DateTime.MinValue)
+                DataDe = DateTime.Today;
+            if (this.DataAte == DateTime.MinValue)
+                DataAte = DateTime.Today;
         }
 
         //HTTP metodos
