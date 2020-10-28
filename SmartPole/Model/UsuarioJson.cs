@@ -4,8 +4,7 @@ using System.Text;
 
 namespace SmartPole.Model
 {
-
-public class Email : JSON
+    public class Email : JSON
     {
         public string type;
         public string value;

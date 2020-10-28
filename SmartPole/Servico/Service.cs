@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -20,14 +21,14 @@ namespace SmartPole.Servico
             {
                 List<string> lista = new List<string>();
                 try
-                {               
+                {
 
                     HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_API + Constantes.GET_DISPOSITIVO);
                     if (resposta.IsSuccessStatusCode)
                     {
-                       // Dispositivos.Clear();
+                        // Dispositivos.Clear();
                         string conteudo = await resposta.Content.ReadAsStringAsync();
-                        lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();                        
+                        lista = JsonConvert.DeserializeObject<string[]>(conteudo).ToList();
                     }
                     else
                     {
@@ -38,7 +39,7 @@ namespace SmartPole.Servico
                 {
                     MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
                 }
-                return lista;                
+                return lista;
             }
         }
 
@@ -106,29 +107,25 @@ namespace SmartPole.Servico
         {
             using (HttpClient cliente = new HttpClient())
             {
-                bool output = false;                
+                bool output = false;
                 //cliente.BaseAddress = new Uri();
 
-                cliente.DefaultRequestHeaders.Add("Accept", "application/json");
-                cliente.DefaultRequestHeaders.Add("fiware-service", "helixiot");
-                cliente.DefaultRequestHeaders.Add("fiware-servicepath", "/");
+                //cliente.DefaultRequestHeaders.Add("Content-Type", "application/json");
+                //cliente.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); //ACCEPT header
 
                 try
                 {
-                    HttpResponseMessage resposta = await cliente.GetAsync(Constantes.URL_HELIX + Constantes.GET_ENTITIES + usuario.Login);
-                    if (resposta.IsSuccessStatusCode)
+                    var httpContent = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+                    HttpResponseMessage request = await cliente.PostAsync(Constantes.URL_API + Constantes.POST_LOGIN, httpContent);
+                    if (request.IsSuccessStatusCode)
                     {
-                        string conteudo = await resposta.Content.ReadAsStringAsync();
-                        UsuarioJson usuariojson = JsonConvert.DeserializeObject<UsuarioJson>(conteudo);
+                        var response = await request.Content.ReadAsStringAsync();
 
-                        if (usuariojson.senha.value == usuario.Senha)
-                        {
-                            output = true;
-                        }
-                        else
-                        {
+                        output =  JsonConvert.DeserializeObject<bool>(response);
+                        if (!output)
                             MessagingCenter.Send<String>("Usuario/Senha incorretos.", "FalhaLogin");
-                        }
                     }
                     else
                     {
