@@ -108,6 +108,10 @@ namespace SmartPole.Servico
             using (HttpClient cliente = new HttpClient())
             {
                 bool output = false;
+                //cliente.BaseAddress = new Uri();
+
+                //cliente.DefaultRequestHeaders.Add("Content-Type", "application/json");
+                //cliente.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); //ACCEPT header
 
