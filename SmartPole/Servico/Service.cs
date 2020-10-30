@@ -35,7 +35,7 @@ namespace SmartPole.Servico
                         MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
                     }
                 }
-                catch (HttpRequestException)
+                catch 
                 {
                     MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
                 }
@@ -66,7 +66,7 @@ namespace SmartPole.Servico
                         MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
                     }
                 }
-                catch (HttpRequestException)
+                catch 
                 {
                     MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
                 }
@@ -95,7 +95,7 @@ namespace SmartPole.Servico
                         MessagingCenter.Send<String>("Não foi possível acessar o histórico do MongoDB", "FalhaConsulta");
                     }
                 }
-                catch (HttpRequestException)
+                catch 
                 {
                     MessagingCenter.Send<String>("Não foi possivel acessar o servidor, verifique a sua conexão e tente novamente.", "FalhaConsulta");
                 }
@@ -129,7 +129,7 @@ namespace SmartPole.Servico
                     }
 
                 }
-                catch (HttpRequestException)
+                catch 
                 {
                     MessagingCenter.Send<String>("Não foi possivel efetuar o login, verifique a sua conexão e tente novamente.", "FalhaLogin");
                 }
