@@ -41,13 +41,6 @@
                     </gauge:SfCircularGauge>
                 </StackLayout>
             </ScrollView>
-            <StackLayout
-                IsVisible="{Binding Aguardar}">
-            <ActivityIndicator IsRunning="{Binding Aguardar}" 
-                                   HorizontalOptions="CenterAndExpand"
-                                   VerticalOptions="CenterAndExpand"
-                                   Color="Black"/>
-        </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 

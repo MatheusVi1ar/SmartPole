@@ -177,6 +177,7 @@ namespace SmartPole.ViewModel
                 MessagingCenter.Send<String>("Para efetuar a consulta escolha um período válido", "FalhaConsulta");
 
             Aguardar = true;
+            IsVisible = false;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             Entidade aux = await service.ConsultarHistorico(DispositivoSelecionado, DataDe, DataAte);
 
