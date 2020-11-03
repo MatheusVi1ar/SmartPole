@@ -13,7 +13,11 @@ namespace SmartPole
             //Register Syncfusion license
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzM0NDEwQDMxMzgyZTMzMmUzMFpGeEU3a2ZoUHBlL2ZveExodlg1RnpYbDBwTC9vWk1VUkx6QnE1WHZwZHM9");
             InitializeComponent();
-            MainPage = new NavigationPage(new LoginView());
+            MainPage = new NavigationPage(new LoginView())
+            {
+                BarBackgroundColor = Color.FromHex("#b2fefc"),
+                BarTextColor = Color.Black
+            };
         }
 
         protected override void OnStart()

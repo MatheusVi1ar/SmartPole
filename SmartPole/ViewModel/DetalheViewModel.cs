@@ -86,27 +86,6 @@ namespace SmartPole.ViewModel
             }
         }
 
-        private bool aguardar { get; set; }
-        public bool Aguardar
-        {
-            get
-            {
-                return aguardar;
-            }
-            set
-            {
-                aguardar = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Completo
-        {
-            get
-            {
-                return !aguardar;
-            }
-        }
         private DateTime dataDe { get; set; }
         public DateTime DataDe
         {
@@ -141,6 +120,7 @@ namespace SmartPole.ViewModel
 
         public DetalheViewModel()
         {
+            Aguardar = false;
             CmdBuscar = new Command(() =>
             {
                 MessagingCenter.Send<String>(String.Empty, "ConsultarHistorico");

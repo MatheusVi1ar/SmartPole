@@ -39,6 +39,7 @@ namespace SmartPole.View
                 //CrossExternalMaps.Current.NavigateTo("Macoratti", latitude, longitude);
             });
 
+
             MessagingCenter.Subscribe<String>(this, "FalhaConsulta", (msg) =>
             {
                 DisplayAlert("Erro de conexão", msg, "Ok");

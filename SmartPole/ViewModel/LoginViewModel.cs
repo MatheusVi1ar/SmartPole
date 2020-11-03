@@ -41,22 +41,11 @@ namespace SmartPole.ViewModel
                 ((Command)CmdLogin).ChangeCanExecute();
             }
         }
-        private bool aguardar { get; set; }
-        public bool Aguardar
-        {
-            get
-            {
-                return aguardar;
-            }
-            set
-            {
-                aguardar = value;
-                OnPropertyChanged();
-            }
-        }
+
 
         public LoginViewModel()
         {
+            Aguardar = false;
             Usuario = new UsuarioModel();
             CmdLogin = new Command(async () =>
             {

@@ -14,5 +14,34 @@ namespace SmartPole.ViewModel
         {
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));
         }
+
+        private bool aguardar { get; set; }
+        public bool Aguardar
+        {
+            get
+            {
+                return aguardar;
+            }
+            set
+            {
+                aguardar = value;
+                OnPropertyChanged();
+                Completo = !value;
+            }
+        }
+
+        private bool completo { get; set; }
+        public bool Completo
+        {
+            get
+            {
+                return completo;
+            }
+            set
+            {
+                completo = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

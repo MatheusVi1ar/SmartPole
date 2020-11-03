@@ -13,15 +13,16 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <StackLayout BackgroundColor="White"
-                             AbsoluteLayout.LayoutBounds="0,0,1,1"
-                             AbsoluteLayout.LayoutFlags="All">
+                         AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         IsVisible="{Binding Completo}">
                 <Image Source="smartcity.jpg" Aspect="AspectFill"></Image>
                 <StackLayout VerticalOptions="Center" Margin="35">
                     <Entry Placeholder="Usuário" Text="{Binding Login}" Margin="0,25,0,0"></Entry>
                     <Entry Placeholder="Senha" Text="{Binding Senha}" Margin="0,25,0,0" IsPassword="True"></Entry>
                     <Button x:Name="BtnLogin"
                     Text="Acessar"
-                    BackgroundColor="PaleTurquoise"  
+                    BackgroundColor="#b2fefc"  
                     Margin="40,60,40,0"
                     HeightRequest="40"
                     WidthRequest="40"
@@ -30,7 +31,7 @@
                     </Button>
                     <Button x:Name="BtnSobre"
                     Text="Sobre"
-                    BackgroundColor="PaleTurquoise"  
+                    BackgroundColor="#b2fefc"  
                     Margin="40,60,40,0"
                     HeightRequest="40"
                     WidthRequest="40"
@@ -42,8 +43,7 @@
             <StackLayout
                 IsVisible="{Binding Aguardar}"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Gray" Opacity="0.5">
+                AbsoluteLayout.LayoutFlags="All">
                 <ActivityIndicator IsRunning="{Binding Aguardar}" 
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="CenterAndExpand"

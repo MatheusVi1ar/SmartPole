@@ -78,6 +78,7 @@ namespace SmartPole.ViewModel
                 {
                     MostrarGrafico(sensorSelecionado);
                 }
+                OnPropertyChanged();
             }
         }
 
@@ -95,28 +96,6 @@ namespace SmartPole.ViewModel
             }
         }
 
-        private bool aguardar { get; set; }
-        public bool Aguardar
-        {
-            get
-            {
-                return aguardar;
-            }
-            set
-            {
-                aguardar = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Completo
-        {
-            get
-            {
-                return !aguardar;
-            }
-        }
-
         private bool gaugeVisible { get; set; }
         public bool GaugeVisible
         {
@@ -130,7 +109,7 @@ namespace SmartPole.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        
         private bool sensorVisible { get; set; }
         public bool SensorVisible
         {
@@ -200,12 +179,12 @@ namespace SmartPole.ViewModel
                 ValorGrafico = DadosRecentes.umidade.value;
             else if (selecionado == Constantes.TipoSensor.Gás.ToString())
                 ValorGrafico = DadosRecentes.gas.value;
-
         }
 
         public Command cmdGPS { get; set; }
         public GeralViewModel()
         {
+            Aguardar = false;
             cmdGPS = new Command(async () =>
             {
                 var location = await Geolocation.GetLastKnownLocationAsync();
@@ -217,6 +196,10 @@ namespace SmartPole.ViewModel
                     gps.Latitude = location.Latitude;
                     gps.Longitude = location.Longitude;
                     MessagingCenter.Send(gps, "GPS");
+                }
+                else
+                {
+                    MessagingCenter.Send("Localização não encontrada","FalhaConsulta");
                 }
             },
             () =>

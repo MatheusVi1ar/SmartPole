@@ -11,51 +11,44 @@
         <vm:GeralViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <AbsoluteLayout>
-            <StackLayout 
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-                    <StackLayout Orientation="Horizontal">
-                        <Picker x:Name="ddDispositivo" Title="Selecione dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="0,15,15,0"></Picker>
-                        <Picker x:Name="ddSensor" Title="Selec. Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}" Margin="0,15,15,0"></Picker>
-                    </StackLayout>
-                    <Button x:Name="btnGPS"
+        <StackLayout>
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal" IsEnabled="{Binding Completo}">
+                    <Picker x:Name="ddDispositivo" Title="Selecione dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="0,15,15,0"></Picker>
+                    <Picker x:Name="ddSensor" Title="Selec. Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}" Margin="0,15,15,0"></Picker>
+                </StackLayout>
+                <Button x:Name="btnGPS"
                     Text="Localização"
-                    BackgroundColor="PaleTurquoise"  
+                    BackgroundColor="#b2fefc"  
                     Margin="0,25,0,25"
                     BorderRadius="10"                    
                     Command="{Binding cmdGPS}"></Button>
-                </StackLayout>
-                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-                    <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding GaugeVisible}">
-                        <gauge:SfCircularGauge >
-                            <gauge:SfCircularGauge.Headers>
-                                <gauge:Header Text="Vazão" ForegroundColor="Black" TextSize="20" />
-                            </gauge:SfCircularGauge.Headers>
-                            <gauge:SfCircularGauge.Scales>
-                                <gauge:Scale>
-                                    <gauge:Scale.Pointers>
-                                        <gauge:RangePointer  Value="{Binding ValorGrafico}" />
-                                        <gauge:NeedlePointer Value="{Binding ValorGrafico}" />
-                                    </gauge:Scale.Pointers>
-                                </gauge:Scale>
-                            </gauge:SfCircularGauge.Scales>
-                        </gauge:SfCircularGauge>
-                    </StackLayout>
-                </ScrollView>
             </StackLayout>
+            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding GaugeVisible}">
+                    <gauge:SfCircularGauge >
+                        <gauge:SfCircularGauge.Headers>
+                            <gauge:Header Text="{Binding SensorSelecionado}" ForegroundColor="Black" TextSize="20" />
+                        </gauge:SfCircularGauge.Headers>
+                        <gauge:SfCircularGauge.Scales>
+                            <gauge:Scale>
+                                <gauge:Scale.Pointers>
+                                    <gauge:RangePointer  Value="{Binding ValorGrafico}" />
+                                    <gauge:NeedlePointer Value="{Binding ValorGrafico}" />
+                                </gauge:Scale.Pointers>
+                            </gauge:Scale>
+                        </gauge:SfCircularGauge.Scales>
+                    </gauge:SfCircularGauge>
+                </StackLayout>
+            </ScrollView>
             <StackLayout
-                IsVisible="{Binding Aguardar}"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Gray" Opacity="0.5">
-                <ActivityIndicator IsRunning="{Binding Aguardar}" 
+                IsVisible="{Binding Aguardar}">
+            <ActivityIndicator IsRunning="{Binding Aguardar}" 
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="CenterAndExpand"
                                    Color="Black"/>
-            </StackLayout>
-        </AbsoluteLayout>
+        </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 
 </ContentPage>

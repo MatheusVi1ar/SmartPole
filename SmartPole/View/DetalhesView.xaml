@@ -6,67 +6,66 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="SmartPole.View.DetalhesView">
-    <ContentPage.Content>        
-        <AbsoluteLayout>            
-            <StackLayout 
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Orientation="Horizontal">
-                    <Picker x:Name="ddDispositivo" Title="Selec. um Dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="15,15,15,0"></Picker>
-                    <Picker x:Name="ddSensor" Title="Selec. um Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}"  Margin="0,15,15,0"></Picker>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" IsEnabled="{Binding Completo}">
+                <Picker x:Name="ddDispositivo" Title="Selec. um Dispositivo" ItemsSource ="{Binding Dispositivos}" SelectedItem="{Binding DispositivoSelecionado}" HorizontalOptions="Start" Margin="15,15,15,0"></Picker>
+                <Picker x:Name="ddSensor" Title="Selec. um Sensor" ItemsSource ="{Binding TiposSensores}" SelectedItem="{Binding SensorSelecionado}"  Margin="0,15,15,0"></Picker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,5,25,25" IsEnabled="{Binding Completo}">
+                <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
+                    <Label Text="De"></Label>
+                    <DatePicker Date="{Binding DataDe}"></DatePicker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,5,25,25">
-                    <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
-                        <Label Text="De"></Label>
-                        <DatePicker Date="{Binding DataDe}"></DatePicker>
-                    </StackLayout>
-                    <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
-                        <Label Text="Até"></Label>
-                        <DatePicker Date="{Binding DataAte}"></DatePicker>
-                    </StackLayout>
-                    <Button x:Name="BtnBuscar"
+                <StackLayout Orientation ="Vertical" HorizontalOptions="CenterAndExpand">
+                    <Label Text="Até"></Label>
+                    <DatePicker Date="{Binding DataAte}"></DatePicker>
+                </StackLayout>
+                <Button x:Name="BtnBuscar"
                     Text="Buscar"
-                    BackgroundColor="PaleTurquoise"  
+                    BackgroundColor="#b2fefc"  
                     Margin="20,30,0,0"
                     HeightRequest="30"
                     BorderRadius="20"
                     Command="{Binding CmdBuscar}"></Button>
-                </StackLayout>
-                <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsVisible}">
-                    <chart:SfChart x:Name="Chart1" HorizontalOptions="FillAndExpand" HeightRequest="375" Margin="5,0,20,0">
-                        <chart:SfChart.PrimaryAxis>
-                            <chart:CategoryAxis>
-                                <chart:CategoryAxis.Title>
-                                    <chart:ChartAxisTitle Text="Data"/>
-                                </chart:CategoryAxis.Title>
-                            </chart:CategoryAxis>
-                        </chart:SfChart.PrimaryAxis>
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding IsVisible}">
+                <chart:SfChart x:Name="Chart1" HorizontalOptions="FillAndExpand" HeightRequest="375" Margin="5,0,20,0">
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis>
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Data"/>
+                            </chart:CategoryAxis.Title>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
 
-                        <chart:SfChart.SecondaryAxis>
-                            <chart:NumericalAxis>
-                                <chart:NumericalAxis.Title>
-                                    <chart:ChartAxisTitle Text="Valor"/>
-                                </chart:NumericalAxis.Title>
-                            </chart:NumericalAxis>
-                        </chart:SfChart.SecondaryAxis>
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis>
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text="Valor"/>
+                            </chart:NumericalAxis.Title>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
 
-                        <chart:SfChart.Series>
-                            <chart:LineSeries ItemsSource="{Binding ListaChart}" XBindingPath="Data" YBindingPath="Valor">
-                            </chart:LineSeries>
-                        </chart:SfChart.Series>
-                    </chart:SfChart>
-                </StackLayout>
+                    <chart:SfChart.Series>
+                        <chart:LineSeries ItemsSource="{Binding ListaChart}" XBindingPath="Data" YBindingPath="Valor">
+                        </chart:LineSeries>
+                    </chart:SfChart.Series>
+
+                    <chart:SfChart.ChartBehaviors>
+
+                        <chart:ChartZoomPanBehavior EnableSelectionZooming="True" ZoomMode="X"/>
+
+                    </chart:SfChart.ChartBehaviors>
+                </chart:SfChart>
             </StackLayout>
             <StackLayout
-                IsVisible="{Binding Aguardar}"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Gray" Opacity="0.5">
+                IsVisible="{Binding Aguardar}">
                 <ActivityIndicator IsRunning="{Binding Aguardar}" 
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="CenterAndExpand"
                                    Color="Black"/>
             </StackLayout>
-        </AbsoluteLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
