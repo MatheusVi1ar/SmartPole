@@ -24,8 +24,8 @@
                     BorderRadius="10"                    
                     Command="{Binding cmdGPS}"></Button>
             </StackLayout>
-            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-                <StackLayout HorizontalOptions="FillAndExpand" IsVisible="{Binding GaugeVisible}">
+            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" IsVisible="{Binding GaugeVisible}">
+                <StackLayout HorizontalOptions="FillAndExpand">
                     <gauge:SfCircularGauge >
                         <gauge:SfCircularGauge.Headers>
                             <gauge:Header Text="{Binding SensorSelecionado}" ForegroundColor="Black" TextSize="20" />
@@ -39,8 +39,16 @@
                             </gauge:Scale>
                         </gauge:SfCircularGauge.Scales>
                     </gauge:SfCircularGauge>
-                </StackLayout>
+                </StackLayout>                
             </ScrollView>
+            <StackLayout
+                    IsVisible="{Binding Aguardar}"
+                    HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding Aguardar}" 
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   Color="Black"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 

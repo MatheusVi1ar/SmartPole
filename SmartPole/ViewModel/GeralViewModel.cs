@@ -143,6 +143,7 @@ namespace SmartPole.ViewModel
         public async void ConsultarDados(string selecionado)
         {
             Aguardar = true;
+            GaugeVisible = false;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             DadosRecentes = await service.ConsultarDados(selecionado);
             TiposSensores.Clear();
@@ -159,8 +160,7 @@ namespace SmartPole.ViewModel
             if (DadosRecentes.gas != null)
                 TiposSensores.Add(Constantes.TipoSensor.Gás.ToString());
 
-            SensorVisible = TiposSensores.Count > 0;
-            GaugeVisible = false;
+            SensorVisible = TiposSensores.Count > 0;            
             Aguardar = false;
         }
 

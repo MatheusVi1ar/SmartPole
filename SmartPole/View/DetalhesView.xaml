@@ -60,7 +60,8 @@
                 </chart:SfChart>
             </StackLayout>
             <StackLayout
-                IsVisible="{Binding Aguardar}">
+                IsVisible="{Binding Aguardar}"
+                HorizontalOptions="Center" VerticalOptions="Center">
                 <ActivityIndicator IsRunning="{Binding Aguardar}" 
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="CenterAndExpand"
