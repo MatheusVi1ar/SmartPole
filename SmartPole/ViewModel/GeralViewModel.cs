@@ -133,6 +133,7 @@ namespace SmartPole.ViewModel
             Aguardar = true;
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             List<string> lista = await service.ConsultarDispositivo();
+            Dispositivos.Clear();
             lista.ForEach((item) =>
             {
                 Dispositivos.Add(item);
