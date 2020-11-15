@@ -12,6 +12,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <AbsoluteLayout>
+            <ScrollView>
             <StackLayout BackgroundColor="White"
                          AbsoluteLayout.LayoutBounds="0,0,1,1"
                          AbsoluteLayout.LayoutFlags="All"
@@ -40,6 +41,7 @@
                     </Button>
                 </StackLayout>
             </StackLayout>
+            </ScrollView>
             <StackLayout
                 IsVisible="{Binding Aguardar}"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -48,7 +50,7 @@
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="CenterAndExpand"
                                    Color="Black"/>
-            </StackLayout>
+            </StackLayout>                
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

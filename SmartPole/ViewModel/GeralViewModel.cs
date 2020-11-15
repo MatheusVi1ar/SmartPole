@@ -147,17 +147,17 @@ namespace SmartPole.ViewModel
             SmartPole.Servico.Service service = new SmartPole.Servico.Service();
             DadosRecentes = await service.ConsultarDados(selecionado);
             TiposSensores.Clear();
-            if (DadosRecentes.vazao != null)
+            if (DadosRecentes.vazao != null &&  !String.IsNullOrWhiteSpace(DadosRecentes.vazao.value))
                 TiposSensores.Add(Constantes.TipoSensor.Vazão.ToString());
-            if (DadosRecentes.temperatura != null)
+            if (DadosRecentes.temperatura != null && !String.IsNullOrWhiteSpace(DadosRecentes.temperatura.value))
                 TiposSensores.Add(Constantes.TipoSensor.Temperatura.ToString());
-            if (DadosRecentes.luminosidade != null)
+            if (DadosRecentes.luminosidade != null && !String.IsNullOrWhiteSpace(DadosRecentes.luminosidade.value))
                 TiposSensores.Add(Constantes.TipoSensor.Luz.ToString());
-            if (DadosRecentes.energia != null)
+            if (DadosRecentes.energia != null && !String.IsNullOrWhiteSpace(DadosRecentes.energia.value))
                 TiposSensores.Add(Constantes.TipoSensor.Energia.ToString());
-            if (DadosRecentes.umidade != null)
+            if (DadosRecentes.umidade != null && !String.IsNullOrWhiteSpace(DadosRecentes.umidade.value))
                 TiposSensores.Add(Constantes.TipoSensor.Umidade.ToString());
-            if (DadosRecentes.gas != null)
+            if (DadosRecentes.gas != null && !String.IsNullOrWhiteSpace(DadosRecentes.gas.value))
                 TiposSensores.Add(Constantes.TipoSensor.Gás.ToString());
 
             SensorVisible = TiposSensores.Count > 0;            
